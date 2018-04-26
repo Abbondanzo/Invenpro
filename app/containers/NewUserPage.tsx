@@ -4,6 +4,7 @@ import { connect, Dispatch } from 'react-redux';
 import { NewUser, IProps } from '../components/NewUser';
 import * as UserActions from '../actions/userActions';
 import { IState } from '../reducers';
+import { IAction } from '../actions/helpers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
@@ -11,7 +12,7 @@ function mapStateToProps(state: IState): Partial<IProps> {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IState>): Partial<IProps> {
+function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
     return bindActionCreators(UserActions as any, dispatch);
 }
 
