@@ -26,9 +26,7 @@ export class NewUser extends React.Component<IProps> {
         return (
             <div>
                 <div data-tid="backButton">
-                    <Link to="/">
-                        <i className="fa fa-arrow-left fa-3x" />
-                    </Link>
+                    <Link to="/">Go back</Link>
                 </div>
                 <span>
                     {user.name}
