@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 
 let styles = require("./Home.scss");
 
@@ -11,7 +10,6 @@ export default class Home extends React.Component {
                     <h2>Home</h2>
                     <Link to="/counter">to Counter</Link>
                     <br />
-                    <Link to="/new-user">Add User</Link>
                 </div>
             </div>
         );
