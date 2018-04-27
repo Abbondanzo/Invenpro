@@ -1,17 +1,40 @@
-import { Action } from 'redux'
+import { Action } from "redux";
+import { User } from "../reducers/user";
 
 export const Types = {
-    updateName: 'UPDATE_NAME'
+  addUser: "ADD_USER",
+  updateName: "UPDATE_NAME"
+};
+
+/**
+ * An action over a single user
+ */
+export interface IUserAction extends Action {
+  readonly type: String;
+  readonly user: User;
 }
 
-export interface IUserAction<T> extends Action {
-    readonly type: String,
-    readonly value: T
+/**
+ * An action over a single user containing a payload of information
+ */
+export interface IUserActionPayload<T> extends IUserAction {
+  readonly value: T;
 }
 
-export function updateName(value: String): IUserAction<String> {
-    return {
-        type: Types.updateName,
-        value: value
-    }
+export function addUser(user: User): IUserAction {
+  return {
+    type: Types.addUser,
+    user: user
+  };
+}
+
+export function updateName(
+  value: String,
+  user: User
+): IUserActionPayload<String> {
+  return {
+    type: Types.updateName,
+    user: user,
+    value: value
+  };
 }
