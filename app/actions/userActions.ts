@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { User } from "../reducers/user";
+import { User } from "reducers/user";
 
 export const Types = {
   addUser: "ADD_USER",

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
-import { User, UserState } from "../reducers/user";
+import { User, UserState } from "reducers/user";
 
 export interface IProps extends RouteComponentProps<any> {
   addUser(user: User): void;
@@ -39,7 +39,7 @@ export class NewUser extends React.Component<IProps, { newUser: User }> {
     return (
       <div>
         <div data-tid="backButton">
-          <Link to="/">Go back</Link>
+          <Link to="/users">Go back</Link>
         </div>
         <span>{this.state.newUser.name}</span>
         <div>

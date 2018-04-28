@@ -2,7 +2,7 @@ import {
   IUserAction,
   Types as UserActionTypes,
   IUserActionPayload
-} from "../actions/userActions";
+} from "actions/userActions";
 
 const initialState: UserState = {
   userList: []

@@ -9,7 +9,7 @@ export default class Home extends React.Component {
       <div>
         <div className={styles.container} data-tid="container">
           <br />
-          <Link to="/new-user">Add user</Link>
+          <Link to="/users">Users</Link>
         </div>
       </div>
     );
