@@ -2,39 +2,48 @@ import { Action } from "redux";
 import { User } from "reducers/user";
 
 export const Types = {
-  addUser: "ADD_USER",
-  updateName: "UPDATE_NAME"
+	addUser: "ADD_USER",
+	updateName: "UPDATE_NAME",
+	editUser: "EDIT_USER"
 };
 
 /**
  * An action over a single user
  */
 export interface IUserAction extends Action {
-  readonly type: String;
-  readonly user: User;
+	readonly type: String;
+	readonly user: User;
 }
 
 /**
  * An action over a single user containing a payload of information
  */
 export interface IUserActionPayload<T> extends IUserAction {
-  readonly value: T;
+	readonly value: T;
 }
 
 export function addUser(user: User): IUserAction {
-  return {
-    type: Types.addUser,
-    user: user
-  };
+	return {
+		type: Types.addUser,
+		user: user
+	};
+}
+
+export function editUser(oldUser: User, newUser: User): IUserActionPayload<User> {
+	return {
+		type: Types.editUser,
+		user: oldUser,
+		value: newUser
+	}
 }
 
 export function updateName(
-  value: String,
-  user: User
+	value: String,
+	user: User
 ): IUserActionPayload<String> {
-  return {
-    type: Types.updateName,
-    user: user,
-    value: value
-  };
+	return {
+		type: Types.updateName,
+		user: user,
+		value: value
+	};
 }

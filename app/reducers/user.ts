@@ -1,48 +1,53 @@
 import {
-  IUserAction,
-  Types as UserActionTypes,
-  IUserActionPayload
+	IUserAction,
+	Types as UserActionTypes,
+	IUserActionPayload
 } from "actions/userActions";
 
 const initialState: UserState = {
-  userList: []
+	userList: []
 };
 
 export type UserState = {
-  userList: Array<User>;
+	userList: Array<User>;
 };
 
 export type User = {
-  name: string;
+	name: string;
 };
 
 export default function user(
-  state: UserState = initialState,
-  action: IUserAction
+	state: UserState = initialState,
+	action: IUserAction
 ): UserState {
-  switch (action.type) {
-    case UserActionTypes.addUser:
-      return addUserState(state, action.user);
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case UserActionTypes.addUser:
+			return addUserState(state, action.user);
+		default:
+			return state;
+	}
 }
 
 export function userWithPayload<T>(
-  state: UserState = initialState,
-  action: IUserActionPayload<T>
+	state: UserState = initialState,
+	action: IUserActionPayload<T>
 ): UserState {
-  switch (action.type) {
-    case UserActionTypes.updateName:
-      let newUser = updateUser(action.user, { name: action.value });
-      return updateUserState(state, action.user, newUser);
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case UserActionTypes.updateName:
+			let userWithNewName = updateUser(action.user, { name: action.value });
+			return updateUserState(state, action.user, userWithNewName);
+		case UserActionTypes.editUser:
+			let newUser = updateUser(action.user, action.value);
+			console.log(action.user)
+			console.log(action.value)
+			return updateUserState(state, action.user, newUser);
+		default:
+			return state;
+	}
 }
 
 function updateUser(oldUser: User, newValues: Object) {
-  return Object.assign({}, oldUser, newValues);
+	return Object.assign({}, oldUser, newValues);
 }
 
 /**
@@ -51,9 +56,9 @@ function updateUser(oldUser: User, newValues: Object) {
  * @param newUser the user we wish to inject or add to the list
  */
 function addUserState(oldState: UserState, newUser: User) {
-  let userList = oldState.userList;
-  userList.push(newUser);
-  return Object.assign({}, oldState, { userList: userList });
+	let userList = oldState.userList;
+	userList.push(newUser);
+	return Object.assign({}, oldState, { userList: userList });
 }
 
 /**
@@ -63,15 +68,15 @@ function addUserState(oldState: UserState, newUser: User) {
  * @param newUser the user we wish to inject or add to the list
  */
 function updateUserState(oldState: UserState, oldUser: User, newUser: User) {
-  let userList = oldState.userList;
-  let oldUserIndex = userList.indexOf(oldUser);
+	let userList = oldState.userList;
+	let oldUserIndex = userList.indexOf(oldUser);
 
-  // If the user exists, replace it. Otherwise, add it
-  if (oldUserIndex !== -1) {
-    userList[oldUserIndex] = newUser;
-  } else {
-    userList.push(newUser);
-  }
+	// If the user exists, replace it. Otherwise, add it
+	if (oldUserIndex !== -1) {
+		userList[oldUserIndex] = newUser;
+	} else {
+		userList.push(newUser);
+	}
 
-  return Object.assign({}, oldState, { userList: userList });
+	return Object.assign({}, oldState, { userList: userList });
 }

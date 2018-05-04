@@ -1,21 +1,21 @@
 import * as React from "react";
 import { bindActionCreators } from "redux";
 import { connect, Dispatch } from "react-redux";
-import { UserList, IProps } from "components/users/UserList";
+import { AddUserPage, IProps } from "components/users/AddUserPage";
 import * as UserActions from "actions/userActions";
 import { IState } from "reducers";
 import { IAction } from "actions/helpers";
 
-function mapStateToProps(state: IState) {
-  return {
-    userList: state.user.userList
-  };
+function mapStateToProps(state: IState): Partial<IProps> {
+	return {
+		userList: state.user
+	};
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
-  return bindActionCreators(UserActions as any, dispatch);
+	return bindActionCreators(UserActions as any, dispatch);
 }
 
 export default (connect(mapStateToProps, mapDispatchToProps)(
-  UserList
+	AddUserPage
 ) as any) as React.StatelessComponent<IProps>;
