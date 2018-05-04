@@ -11,7 +11,7 @@ import { IAction } from "actions/helpers";
 
 function mapStateToProps(state: IState) {
 	return {
-		userList: state.user.userList
+		userMap: state.user.userMap
 	};
 }
 
@@ -27,11 +27,9 @@ export default (): any => (
 	<div>
 		<h1>Users</h1>
 		<Switch>
-			<Route exact path="/users" component={userComponent} />
 			<Route path="/users/add-user" component={AddUser} />
 			<Route path="/users/edit-user:name" component={EditUser} />
+			<Route exact path="/users" component={userComponent} />
 		</Switch>
 	</div>
 );
-
-console.log("test")

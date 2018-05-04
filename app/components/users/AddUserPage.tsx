@@ -1,11 +1,10 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
-import { User, UserState } from "reducers/user";
+import { User } from "reducers/user";
 
 export interface IProps extends RouteComponentProps<any> {
 	addUser(user: User): void;
-	userList: UserState;
 }
 
 export class AddUserPage extends React.Component<IProps, { newUser: User }> {

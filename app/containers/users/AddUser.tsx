@@ -7,9 +7,7 @@ import { IState } from "reducers";
 import { IAction } from "actions/helpers";
 
 function mapStateToProps(state: IState): Partial<IProps> {
-	return {
-		userList: state.user
-	};
+	return {};
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {

@@ -6,7 +6,7 @@ import { User } from "reducers/user";
 let styles = require("./UserList.scss");
 
 export interface IProps extends RouteComponentProps<any> {
-	userList: User[];
+	userMap: Map<String, User>;
 	addUser(): void;
 	editUser(user: User): void;
 }
@@ -26,19 +26,25 @@ export class UserListPage extends React.Component<IProps> {
 						</tr>
 					</thead>
 					<tbody>
-						{this.props.userList.map((user: User, i: number) => {
-							return (
-								<tr id="user">
-									<td>{user.name}</td>
-									<td>
-										<Link to={{
-											pathname: '/users/edit-user?' + user.name,
-											search: user.name
-										}}>Edit</Link>
-									</td>
-								</tr>
-							);
-						})}
+						{
+							Array.from(this.props.userMap.keys()).map((key: string) => {
+								let value = this.props.userMap.get(key);
+								if (value) {
+									return (
+										<tr key={key}>
+											<td>{value.name}</td>
+											<td>
+												<Link to={{
+													pathname: '/users/edit-user',
+													search: value.name
+												}}>Edit</Link>
+											</td>
+										</tr>
+									);
+								}
+								return;
+							})
+						}
 					</tbody>
 				</table>
 				<div data-tid="addButton">

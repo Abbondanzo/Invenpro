@@ -32,5 +32,3 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
 export default (connect(mapStateToProps, mapDispatchToProps)(
 	EditUserPage
 ) as any) as React.StatelessComponent<IProps>;
-
-console.log("test")
