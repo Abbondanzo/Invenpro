@@ -11,7 +11,7 @@ import { IAction } from "actions/helpers";
 
 function mapStateToProps(state: IState) {
 	return {
-		userMap: state.user.userMap
+		userList: state.user.userList
 	};
 }
 

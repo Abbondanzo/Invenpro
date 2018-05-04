@@ -5,11 +5,11 @@ import {
 } from "actions/userActions";
 
 const initialState: UserState = {
-	userMap: new Map()
+	userList: []
 };
 
 export type UserState = {
-	userMap: Map<String, User>;
+	userList: Array<User>;
 };
 
 export type User = {
@@ -81,9 +81,9 @@ function updateUser(oldUser: User, newValues: Object): User {
  * @param newUser the user we wish to inject or add to the map
  */
 function addUserState(oldState: UserState, newUser: User): UserState {
-	let userMap = oldState.userMap;
-	userMap.set(newUser.name, newUser);
-	return Object.assign({}, oldState, { userMap: userMap });
+	let userList = oldState.userList;
+	userList.push(newUser);
+	return Object.assign({}, oldState, { userList: userList });
 }
 
 /**
@@ -93,7 +93,14 @@ function addUserState(oldState: UserState, newUser: User): UserState {
  * @param newUser the user we wish to inject or add to the map
  */
 function updateUserState(oldState: UserState, oldUser: User, newUser: User): UserState {
-	let userMap = oldState.userMap;
-	userMap.set(oldUser.name, newUser);
-	return Object.assign({}, oldState, { userMap: userMap });
+	let userList = oldState.userList;
+	let oldUserIndex = userList.map((user: User) => { return user.name }).indexOf(oldUser.name);
+
+	if (oldUserIndex !== -1) {
+		userList[oldUserIndex] = newUser;
+	} else {
+		userList.push(newUser);
+	}
+
+	return Object.assign({}, oldState, { userList: userList });
 }
