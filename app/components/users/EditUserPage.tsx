@@ -14,6 +14,11 @@ export class EditUserPage extends React.Component<IProps, { user: User }> {
 		this.goBack = this.goBack.bind(this);
 		this.saveUser = this.saveUser.bind(this);
 
+		// If the user gets undefined, go back to the list
+		if (!this.props.user) {
+			this.goBack();
+		}
+		// Otherwise, set this component's state
 		this.state = {
 			user: this.props.user
 		}

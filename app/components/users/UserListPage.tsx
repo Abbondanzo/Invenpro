@@ -7,11 +7,21 @@ let styles = require("./UserList.scss");
 
 export interface IProps extends RouteComponentProps<any> {
 	userList: Array<User>;
-	addUser(): void;
 	editUser(user: User): void;
+	selectUser(user: User): void;
 }
 
 export class UserListPage extends React.Component<IProps> {
+	constructor(props: IProps) {
+		super(props);
+		this.selectUser = this.selectUser.bind(this);
+	}
+
+	selectUser(user: User) {
+		this.props.selectUser(user)
+
+	}
+
 	render() {
 		return (
 			<div>
@@ -32,9 +42,7 @@ export class UserListPage extends React.Component<IProps> {
 									<tr key={user.name}>
 										<td>{user.name}</td>
 										<td>
-											<Link to={{
-												pathname: '/users/edit-user?' + user.name
-											}}>Edit</Link>
+											<button onClick={() => { this.selectUser(user) }}>Edit</button>
 										</td>
 									</tr>
 								);

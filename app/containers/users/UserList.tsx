@@ -28,7 +28,7 @@ export default (): any => (
 		<h1>Users</h1>
 		<Switch>
 			<Route path="/users/add-user" component={AddUser} />
-			<Route path="/users/edit-user:name" component={EditUser} />
+			<Route path="/users/edit-user" component={EditUser} ></Route>
 			<Route exact path="/users" component={userComponent} />
 		</Switch>
 	</div>

@@ -5,11 +5,13 @@ import {
 } from "actions/userActions";
 
 const initialState: UserState = {
-	userList: []
+	userList: [],
+	currentUser: undefined
 };
 
 export type UserState = {
 	userList: Array<User>;
+	currentUser: User | undefined;
 };
 
 export type User = {
@@ -25,6 +27,11 @@ export default function user(
 	state: UserState = initialState,
 	action: IUserAction
 ): UserState {
+	// TODO: Fix this bug where action types aren't loaded in with reducers
+	if (!UserActionTypes) {
+		return state;
+	}
+
 	// Check if the action contains a payload, and return the state if it does
 	if (isActionWithPayload(action)) {
 		return userWithPayload(state, action);
@@ -32,6 +39,8 @@ export default function user(
 	switch (action.type) {
 		case UserActionTypes.addUser:
 			return addUserState(state, action.user);
+		case UserActionTypes.selectUser:
+			return selectUser(state, action.user);
 		default:
 			return state;
 	}
@@ -84,6 +93,15 @@ function addUserState(oldState: UserState, newUser: User): UserState {
 	let userList = oldState.userList;
 	userList.push(newUser);
 	return Object.assign({}, oldState, { userList: userList });
+}
+
+/**
+ * Updates the selected user state with the given user
+ * @param oldState state containing old selected user
+ * @param selectedUser user to select
+ */
+function selectUser(oldState: UserState, selectedUser: User): UserState {
+	return Object.assign({}, oldState, { currentUser: selectedUser });
 }
 
 /**
