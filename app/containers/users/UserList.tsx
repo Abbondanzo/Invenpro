@@ -9,27 +9,27 @@ import * as UserActions from "actions/userActions";
 import { IState } from "reducers";
 import { IAction } from "actions/helpers";
 
-function mapStateToProps(state: IState) {
-	return {
-		userList: state.user.userList
-	};
+function mapStateToProps(state: IState): Partial<IProps> {
+    return {
+        userList: state.user.userList
+    };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
-	return bindActionCreators(UserActions as any, dispatch);
+    return bindActionCreators(UserActions as any, dispatch);
 }
 
 let userComponent = (connect(mapStateToProps, mapDispatchToProps)(
-	UserListPage
+    UserListPage
 ) as any) as React.StatelessComponent<IProps>
 
 export default (): any => (
-	<div>
-		<h1>Users</h1>
-		<Switch>
-			<Route path="/users/add-user" component={AddUser} />
-			<Route path="/users/edit-user" component={EditUser} ></Route>
-			<Route exact path="/users" component={userComponent} />
-		</Switch>
-	</div>
+    <div>
+        <h1>Users</h1>
+        <Switch>
+            <Route path="/users/add-user" component={AddUser} />
+            <Route path="/users/edit-user" component={EditUser} ></Route>
+            <Route exact path="/users" component={userComponent} />
+        </Switch>
+    </div>
 );

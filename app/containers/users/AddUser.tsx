@@ -7,13 +7,13 @@ import { IState } from "reducers";
 import { IAction } from "actions/helpers";
 
 function mapStateToProps(state: IState): Partial<IProps> {
-	return {};
+    return {};
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
-	return bindActionCreators(UserActions as any, dispatch);
+    return bindActionCreators(UserActions as any, dispatch);
 }
 
 export default (connect(mapStateToProps, mapDispatchToProps)(
-	AddUserPage
+    AddUserPage
 ) as any) as React.StatelessComponent<IProps>;
