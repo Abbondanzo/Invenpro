@@ -1,6 +1,5 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { Link } from "react-router-dom";
 
 export type PageLink = {
     name: string,
@@ -15,6 +14,17 @@ export interface IProps extends RouteComponentProps<any> {
 }
 
 export class SidebarPage extends React.Component<IProps> {
+    constructor(props: IProps) {
+        super(props);
+        this.goToPage = this.goToPage.bind(this);
+    }
+
+    goToPage(url: string) {
+        if (url !== this.props.location.pathname) {
+            this.props.history.push(url);
+        }
+    }
+
     render() {
         return (
             <div className={styles.sidebar}>
@@ -22,12 +32,11 @@ export class SidebarPage extends React.Component<IProps> {
                     {
                         this.props.pageLinks.map((page: PageLink) => {
                             return (
-                                <Link to={page.url}>
-                                    <li key={page.name}
-                                        className={page.icon}>
-                                        {page.name}
-                                    </li>
-                                </Link>
+                                <li key={page.name}
+                                    className={page.icon}
+                                    onClick={() => { this.goToPage(page.url) }}>
+                                    {page.name}
+                                </li>
                             );
                         })
                     }

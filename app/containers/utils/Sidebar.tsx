@@ -1,4 +1,5 @@
 import * as React from "react";
+import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { SidebarPage, IProps, PageLink } from "components/utils/SidebarPage";
 import { IState } from "reducers";
@@ -17,9 +18,10 @@ const pageLinks: Array<PageLink> = [
 ]
 
 function mapStateToProps(state: IState): Partial<IProps> {
+    console.log()
     return {
         pageLinks: pageLinks
     };
 }
 
-export default (connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;
+export default withRouter(connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;

@@ -7,7 +7,7 @@ export default class Home extends React.Component {
         return (
             <div className={styles.container} data-tid="container">
                 <br />
-                <h1>Hello, world!</h1>
+                <h1>Hello, world!!</h1>
             </div>
         );
     }
