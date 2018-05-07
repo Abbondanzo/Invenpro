@@ -9,11 +9,10 @@
                 padding: 1em 2em;
                 cursor: pointer;
                 user-select: none;
+                &.active {
+                    font-weight: bold;
+                }
             }
-        }
-        a {
-            text-decoration: none;
-            color: #fff;
         }
     }
 }

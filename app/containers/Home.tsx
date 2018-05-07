@@ -1,10 +1,10 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import Home from "components/Home";
+import HomePage from "components/HomePage";
 
-export class HomePage extends React.Component<RouteComponentProps<any>, void> {
+export class Home extends React.Component<RouteComponentProps<any>, void> {
     render() {
-        return <Home />;
+        return <HomePage />;
     }
 }
 

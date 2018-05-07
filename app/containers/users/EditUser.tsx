@@ -6,7 +6,7 @@ import * as UserActions from "actions/userActions";
 import { IState } from "reducers";
 import { IAction } from "actions/helpers";
 
-function mapStateToProps(state: IState, ownProps: any): Partial<IProps> {
+function mapStateToProps(state: IState): Partial<IProps> {
     return {
         user: state.user.currentUser
     };

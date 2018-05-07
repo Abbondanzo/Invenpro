@@ -25,3 +25,4 @@ function mapStateToProps(state: IState): Partial<IProps> {
 }
 
 export default withRouter(connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;
+// export default (connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;

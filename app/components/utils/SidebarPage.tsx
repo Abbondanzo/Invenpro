@@ -7,16 +7,37 @@ export type PageLink = {
     icon: string
 }
 
+type PageLinkStatus = {
+    page: PageLink,
+    active: boolean
+}
+
 let styles = require("./SidebarPage.scss");
 
 export interface IProps extends RouteComponentProps<any> {
     pageLinks: Array<PageLink>
 }
 
-export class SidebarPage extends React.Component<IProps> {
+export class SidebarPage extends React.Component<IProps, { pageLinks: Array<PageLinkStatus> }> {
     constructor(props: IProps) {
         super(props);
         this.goToPage = this.goToPage.bind(this);
+
+        this.state = {
+            pageLinks: this.props.pageLinks.map((page: PageLink) => {
+                return {
+                    page: page,
+                    active: false
+                }
+            })
+        }
+    }
+
+    componentDidMount() {
+        this.checkForActiveUrl(this.props.location.pathname);
+        this.props.history.listen((location, action) => {
+            this.checkForActiveUrl(location.pathname);
+        });
     }
 
     goToPage(url: string) {
@@ -25,17 +46,31 @@ export class SidebarPage extends React.Component<IProps> {
         }
     }
 
+    checkForActiveUrl(url: string) {
+        let pageLinks = this.state.pageLinks.map((pageData: PageLinkStatus) => {
+            return Object.assign(pageData, {
+                active: pageData.page.url === url
+            })
+        })
+        this.setState({
+            pageLinks: pageLinks
+        })
+    }
+
     render() {
         return (
             <div className={styles.sidebar}>
                 <ul>
                     {
-                        this.props.pageLinks.map((page: PageLink) => {
+                        this.state.pageLinks.map((pageData: PageLinkStatus) => {
                             return (
-                                <li key={page.name}
-                                    className={page.icon}
-                                    onClick={() => { this.goToPage(page.url) }}>
-                                    {page.name}
+                                <li key={pageData.page.name}
+                                    className={
+                                        pageData.page.icon +
+                                        (pageData.active ? " " + styles["active"] : "")
+                                    }
+                                    onClick={() => { this.goToPage(pageData.page.url) }}>
+                                    {pageData.page.name}
                                 </li>
                             );
                         })
