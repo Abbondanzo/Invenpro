@@ -24,9 +24,6 @@ export class UserListPage extends React.Component<IProps> {
     render() {
         return (
             <div>
-                <div data-tid="backButton">
-                    <Link to="/">Go back</Link>
-                </div>
                 <table className={styles.table}>
                     <thead>
                         <tr>

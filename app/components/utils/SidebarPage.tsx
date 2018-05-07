@@ -48,8 +48,12 @@ export class SidebarPage extends React.Component<IProps, { pageLinks: Array<Page
 
     checkForActiveUrl(url: string) {
         let pageLinks = this.state.pageLinks.map((pageData: PageLinkStatus) => {
+            let isActive = pageData.page.url === url
+            if (!isActive) {
+                isActive = pageData.page.url.split('/')[1] === url.split('/')[1]
+            }
             return Object.assign(pageData, {
-                active: pageData.page.url === url
+                active: isActive
             })
         })
         this.setState({
