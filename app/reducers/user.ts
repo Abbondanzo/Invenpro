@@ -1,21 +1,22 @@
 import {
-	IUserAction,
-	Types as UserActionTypes,
-	IUserActionPayload
+    IUserAction,
+    Types as UserActionTypes,
+    IUserActionPayload
 } from "actions/userActions";
 
 const initialState: UserState = {
-	userList: [],
-	currentUser: undefined
+    userList: [],
+    currentUser: undefined
 };
 
 export type UserState = {
-	userList: Array<User>;
-	currentUser: User | undefined;
+    userList: Array<User>;
+    currentUser: User | undefined;
 };
 
 export type User = {
-	name: string;
+    name: string;
+    id: string;
 };
 
 /**
@@ -24,26 +25,26 @@ export type User = {
  * @param action Information containing updates to the state
  */
 export default function user(
-	state: UserState = initialState,
-	action: IUserAction
+    state: UserState = initialState,
+    action: IUserAction
 ): UserState {
-	// TODO: Fix this bug where action types aren't loaded in with reducers
-	if (!UserActionTypes) {
-		return state;
-	}
+    // TODO: Fix this bug where action types aren't loaded in with reducers
+    if (!UserActionTypes) {
+        return state;
+    }
 
-	// Check if the action contains a payload, and return the state if it does
-	if (isActionWithPayload(action)) {
-		return userWithPayload(state, action);
-	}
-	switch (action.type) {
-		case UserActionTypes.addUser:
-			return addUserState(state, action.user);
-		case UserActionTypes.selectUser:
-			return selectUser(state, action.user);
-		default:
-			return state;
-	}
+    // Check if the action contains a payload, and return the state if it does
+    if (isActionWithPayload(action)) {
+        return userWithPayload(state, action);
+    }
+    switch (action.type) {
+        case UserActionTypes.addUser:
+            return addUserState(state, action.user);
+        case UserActionTypes.selectUser:
+            return selectUser(state, action.user);
+        default:
+            return state;
+    }
 }
 
 /**
@@ -51,7 +52,7 @@ export default function user(
  * @param object action to test
  */
 function isActionWithPayload(object: any): object is IUserActionPayload<any> {
-	return 'value' in object;
+    return 'value' in object;
 }
 
 /**
@@ -60,19 +61,19 @@ function isActionWithPayload(object: any): object is IUserActionPayload<any> {
  * @param action Action that contains a payload to update the user with
  */
 function userWithPayload<T>(
-	state: UserState = initialState,
-	action: IUserActionPayload<T>
+    state: UserState = initialState,
+    action: IUserActionPayload<T>
 ): UserState {
-	switch (action.type) {
-		case UserActionTypes.updateName:
-			let userWithNewName = updateUser(action.user, { name: action.value });
-			return updateUserState(state, action.user, userWithNewName);
-		case UserActionTypes.editUser:
-			let newUser = updateUser(action.user, action.value);
-			return updateUserState(state, action.user, newUser);
-		default:
-			return state;
-	}
+    switch (action.type) {
+        case UserActionTypes.updateName:
+            let userWithNewName = updateUser(action.user, { name: action.value });
+            return updateUserState(state, action.user, userWithNewName);
+        case UserActionTypes.editUser:
+            let newUser = updateUser(action.user, action.value);
+            return updateUserState(state, action.user, newUser);
+        default:
+            return state;
+    }
 }
 
 /**
@@ -81,7 +82,7 @@ function userWithPayload<T>(
  * @param newValues new user parameters to assign
  */
 function updateUser(oldUser: User, newValues: Object): User {
-	return Object.assign({}, oldUser, newValues);
+    return Object.assign({}, oldUser, newValues);
 }
 
 /**
@@ -90,9 +91,25 @@ function updateUser(oldUser: User, newValues: Object): User {
  * @param newUser the user we wish to inject or add to the map
  */
 function addUserState(oldState: UserState, newUser: User): UserState {
-	let userList = oldState.userList;
-	userList.push(newUser);
-	return Object.assign({}, oldState, { userList: userList });
+    let userList = oldState.userList;
+    Object.assign(newUser, {
+        id: guid()
+    })
+    userList.push(newUser);
+    return Object.assign({}, oldState, { userList: userList });
+}
+
+/**
+ * Function to generate pseudo-globally unique identifiers.
+ */
+function guid(): string {
+    function s4(): string {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+        s4() + '-' + s4() + s4() + s4();
 }
 
 /**
@@ -101,7 +118,7 @@ function addUserState(oldState: UserState, newUser: User): UserState {
  * @param selectedUser user to select
  */
 function selectUser(oldState: UserState, selectedUser: User): UserState {
-	return Object.assign({}, oldState, { currentUser: selectedUser });
+    return Object.assign({}, oldState, { currentUser: selectedUser });
 }
 
 /**
@@ -111,14 +128,14 @@ function selectUser(oldState: UserState, selectedUser: User): UserState {
  * @param newUser the user we wish to inject or add to the map
  */
 function updateUserState(oldState: UserState, oldUser: User, newUser: User): UserState {
-	let userList = oldState.userList;
-	let oldUserIndex = userList.map((user: User) => { return user.name }).indexOf(oldUser.name);
+    let userList = oldState.userList;
+    let oldUserIndex = userList.map((user: User) => { return user.name }).indexOf(oldUser.name);
 
-	if (oldUserIndex !== -1) {
-		userList[oldUserIndex] = newUser;
-	} else {
-		userList.push(newUser);
-	}
+    if (oldUserIndex !== -1) {
+        userList[oldUserIndex] = newUser;
+    } else {
+        userList.push(newUser);
+    }
 
-	return Object.assign({}, oldState, { userList: userList });
+    return Object.assign({}, oldState, { userList: userList });
 }

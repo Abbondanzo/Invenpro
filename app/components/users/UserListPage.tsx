@@ -35,7 +35,7 @@ export class UserListPage extends React.Component<IProps> {
                         {
                             this.props.userList.map((user: User) => {
                                 return (
-                                    <tr key={user.name}>
+                                    <tr key={user.id}>
                                         <td>{user.name}</td>
                                         <td>
                                             <button onClick={() => { this.selectUser(user) }}>Edit</button>

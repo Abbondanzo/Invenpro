@@ -31,9 +31,9 @@ export class EditUserPage extends React.Component<IProps, { user: User }> {
     handleChange(event: React.FormEvent<HTMLInputElement>) {
         let name = event.currentTarget.value;
         this.setState({
-            user: {
+            user: Object.assign(this.state.user, {
                 name: name
-            }
+            })
         });
     }
 

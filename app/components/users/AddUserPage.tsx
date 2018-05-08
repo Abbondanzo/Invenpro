@@ -14,7 +14,8 @@ export class AddUserPage extends React.Component<IProps, { newUser: User }> {
         this.addUser = this.addUser.bind(this);
 
         let initialUser: User = {
-            name: ""
+            name: "",
+            id: ""
         };
         this.state = {
             newUser: initialUser
@@ -24,9 +25,9 @@ export class AddUserPage extends React.Component<IProps, { newUser: User }> {
     handleChange(event: React.FormEvent<HTMLInputElement>) {
         let name = event.currentTarget.value;
         this.setState({
-            newUser: {
+            newUser: Object.assign(this.state.newUser, {
                 name: name
-            }
+            })
         });
     }
 
@@ -49,7 +50,7 @@ export class AddUserPage extends React.Component<IProps, { newUser: User }> {
                     />
                     <button onClick={this.addUser} data-tclass="btn">
                         Save
-          </button>
+                    </button>
                 </div>
             </div>
         );
