@@ -1,0 +1,70 @@
+$fontPrefix: "../resources/fonts/";
+@font-face {
+    font-family: 'Open Sans';
+    src: url($fontPrefix + 'OpenSans-Regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Italic';
+    src: url($fontPrefix + 'OpenSans-Italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Light';
+    src: url($fontPrefix + 'OpenSans-Light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Light Italic';
+    src: url($fontPrefix + 'OpenSans-LightItalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Semibold';
+    src: url($fontPrefix + 'OpenSans-Semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Semibold Italic';
+    src: url($fontPrefix + 'OpenSans-SemiboldItalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Bold';
+    src: url($fontPrefix + 'OpenSans-Bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Bold Italic';
+    src: url($fontPrefix + 'OpenSans-BoldItalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Extrabold';
+    src: url($fontPrefix + 'OpenSans-ExtraBold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans Extrabold Italic';
+    src: url($fontPrefix + 'OpenSans-ExtraBoldItalic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

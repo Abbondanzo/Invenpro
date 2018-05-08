@@ -14,6 +14,11 @@ const pageLinks: Array<PageLink> = [
         name: 'Users',
         url: '/users',
         icon: 'fa-user'
+    },
+    {
+        name: 'Settings',
+        url: '/settings',
+        icon: 'fa-settings'
     }
 ]
 
@@ -24,5 +29,5 @@ function mapStateToProps(state: IState): Partial<IProps> {
     };
 }
 
-export default withRouter(connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;
+export default withRouter(connect(mapStateToProps)(SidebarPage) as any) as any as React.StatelessComponent<any>;
 // export default (connect(mapStateToProps)(SidebarPage) as any) as React.StatelessComponent<any>;
