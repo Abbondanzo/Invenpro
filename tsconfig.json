@@ -13,20 +13,23 @@
         "types": [],
         "baseUrl": "./app",
         "paths": {
-            "@actions/*": [
+            "actions/*": [
                 "app/actions/*"
             ],
-            "@components/*": [
+            "components/*": [
                 "app/components/*"
             ],
             "containers/*": [
                 "app/containers/*"
             ],
-            "@reducers/*": [
+            "reducers/*": [
                 "app/reducers/*"
             ],
-            "@store/*": [
+            "store/*": [
                 "app/store/*"
+            ],
+            "utils/*": [
+                "app/utils/*"
             ]
         },
         "alwaysStrict": true,

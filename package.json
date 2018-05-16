@@ -166,6 +166,7 @@
         "@types/electron-store": "^1.3.0",
         "electron-debug": "^1.1.0",
         "electron-store": "^1.3.0",
+        "firebase": "^5.0.2",
         "font-awesome": "^4.7.0",
         "history": "^4.6.1",
         "react": "^16.0.0",
