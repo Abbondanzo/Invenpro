@@ -8,12 +8,17 @@ const initialState: UtilState = {
         projectId: "",
         bucket: "",
         databaseName: ""
+    },
+    status: {
+        success: {} as Status,
+        error: {} as Status
     }
 }
 
 export type UtilState = {
-    firebaseDatabase: Firebase.database.Database | null
-    firebaseConfig: KeylessFirebaseConfig
+    firebaseDatabase: Firebase.database.Database | null;
+    firebaseConfig: KeylessFirebaseConfig;
+    status: IStatus;
 }
 
 export type KeylessFirebaseConfig = {
@@ -25,6 +30,16 @@ export type KeylessFirebaseConfig = {
 export type FirebaseConfig = KeylessFirebaseConfig & {
     apiKey: string;
 };
+
+export interface IStatus {
+    success: Status;
+    error: Status;
+}
+
+export type Status = {
+    message: string | null
+    timeout: number | null
+}
 
 /**
  * Performs action over utility state with the given {@link IUtilAction}

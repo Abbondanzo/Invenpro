@@ -4,34 +4,49 @@ import { saveConfig } from 'actions/utilActions';
 // import Store = require("electron-store");
 
 export function initializeFirebase(config: FirebaseConfig) {
-	return (dispatch: Function, getState: Function) => {
-		try {
-			// If we import firebase, check that we use the correct initialization
-			let firebaseInit = firebase
-			if ((firebase as any).default) {
-				firebaseInit = (firebase as any).default
-			}
+    return (dispatch: Function, getState: Function) => {
+        try {
+            // If we import firebase, check that we use the correct initialization
+            let firebaseInit = firebase
+            if ((firebase as any).default) {
+                firebaseInit = (firebase as any).default
+            }
 
-			// One way or another, we need to initialize the app
-			let init = () => {
-				let firebaseInstance = firebaseInit.initializeApp(config)
-				console.log(firebaseInstance)
-				// Save the instance in a dispatch
-			}
+            // One way or another, we need to initialize the app
+            let init = () => {
+                let firebaseInstance = firebaseInit.initializeApp(config)
+                saveDatabase(firebaseInstance)
+                dispatch(saveConfig(config))
+                // Save the instance in a dispatch
+            }
 
-			// Check if we have already initialized a firebase app. If so, delete it
-			if (firebaseInit.apps.length) {
-				firebaseInit.app()
-					.delete()
-					.then(init)
-			} else {
-				init()
-			}
-		} catch (error) {
-			console.log(error)
-		}
-		dispatch(saveConfig(config))
-	}
+            // Check if we have already initialized a firebase app. If so, delete it
+            if (firebaseInit.apps.length) {
+                firebaseInit.app()
+                    .delete()
+                    .then(init)
+            } else {
+                init()
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+function saveDatabase(firebaseApp: firebase.app.App) {
+    try {
+        let database = firebaseApp.database()
+        console.log(database)
+    } catch (error) {
+        if (error.message) {
+            let message = error.message.split(/FIREBASE|ERROR:\s?/)
+            message = message[message.length - 1]
+            console.log(message)
+            // TODO: Dispatch error
+        }
+
+    }
 }
 
 // function loadFirebase() {

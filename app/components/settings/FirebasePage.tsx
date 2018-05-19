@@ -38,19 +38,23 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
         let stateMap = [
             {
                 stateItemKey: "apiKey",
-                desc: "API Key"
+                desc: "API Key",
+                example: "AIza...."
             },
             {
                 stateItemKey: "projectId",
-                desc: "Project ID"
+                desc: "Project Domain",
+                example: "YOUR_APP.firebaseapp.com"
             },
             {
                 stateItemKey: "databaseName",
-                desc: "Database Name"
+                desc: "Database URL",
+                example: "https://YOUR_APP.firebaseio.com"
             },
             {
                 stateItemKey: "bucket",
-                desc: "Storage Bucket"
+                desc: "Storage Bucket",
+                example: "YOUR_APP.appspot.com"
             },
 
         ]
@@ -58,11 +62,11 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
             <div>
                 <form>
                     {
-                        stateMap.map((item: { stateItemKey: string, desc: string }, index: number) => {
+                        stateMap.map((item: { stateItemKey: string, desc: string, example: string }, index: number) => {
                             return (
                                 <div key={index}>
                                     <label htmlFor={item.stateItemKey}>{item.desc}</label>
-                                    <input type="text" name={item.stateItemKey} onChange={this.handleChange} placeholder={item.desc} defaultValue={(this.state.config as any)[item.stateItemKey]} />
+                                    <input type="text" name={item.stateItemKey} onChange={this.handleChange} placeholder={item.example} defaultValue={(this.state.config as any)[item.stateItemKey]} />
                                 </div>
                             )
                         })
