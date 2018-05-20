@@ -1,0 +1,92 @@
+:local {
+    $sidebarWidth: 200px;
+    $contentPadding: 2em;
+    $animationTime: 1s;
+    .container {
+        display: flex;
+        align-content: stretch;
+        position: relative;
+        height: 100%;
+        .sidebar-container {
+            width: $sidebarWidth;
+            height: 100%;
+            position: absolute;
+        }
+        .content-container {
+            margin-left: $sidebarWidth;
+            padding: $contentPadding;
+            width: 100%;
+            position: relative;
+            .status-container {
+                position: absolute;
+                width: calc(100% - (2 * #{$contentPadding}));
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 0.3rem;
+                padding: 1rem;
+                background: #fff;
+                display: none;
+                cursor: pointer;
+                .close {
+                    background: none;
+                    border: none;
+                    outline: none;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    padding: 1em;
+                    cursor: pointer;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+                &.status-success {
+                    color: #155724;
+                    background-color: #d4edda;
+                    border-color: #c3e6cb;
+                    .close {
+                        color: #155724;
+                    }
+                }
+                &.status-error {
+                    color: #721c24;
+                    background-color: #f8d7da;
+                    border-color: #f5c6cb;
+                    .close {
+                        color: #721c24;
+                    }
+                }
+                &.slide-in,
+                &.slide-out {
+                    display: block;
+                }
+            }
+        }
+    }
+    .slide-in {
+        animation-name: slideIn;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: $animationTime;
+    }
+    @keyframes slideIn {
+        0% {
+            top: -300px;
+        }
+        100% {
+            top: 0;
+        }
+    }
+    .slide-out {
+        animation-name: fadeOutOpacity;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
+        animation-duration: $animationTime;
+    }
+    @keyframes fadeOutOpacity {
+        0% {
+            top: 0;
+        }
+        100% {
+            top: -300px;
+        }
+    }
+}

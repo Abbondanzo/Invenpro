@@ -28,3 +28,21 @@ dir {
     font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
 }
+
+.form-row {
+    label {
+        width: 100%;
+    }
+    input {
+        color: #686868;
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 0.8em;
+        background: #f2f2f2;
+        &:focus {
+            background: #e6e6e6;
+        }
+    }
+    padding-bottom: 1em;
+}

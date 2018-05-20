@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { FirebaseConfig } from 'reducers/util';
-import { saveConfig } from 'actions/utilActions';
+import { saveConfig, statusError } from 'actions/utilActions';
 // import Store = require("electron-store");
 
 export function initializeFirebase(config: FirebaseConfig) {
@@ -15,7 +15,7 @@ export function initializeFirebase(config: FirebaseConfig) {
             // One way or another, we need to initialize the app
             let init = () => {
                 let firebaseInstance = firebaseInit.initializeApp(config)
-                saveDatabase(firebaseInstance)
+                saveDatabase(firebaseInstance, dispatch)
                 dispatch(saveConfig(config))
                 // Save the instance in a dispatch
             }
@@ -34,7 +34,7 @@ export function initializeFirebase(config: FirebaseConfig) {
     }
 }
 
-function saveDatabase(firebaseApp: firebase.app.App) {
+function saveDatabase(firebaseApp: firebase.app.App, dispatch: Function) {
     try {
         let database = firebaseApp.database()
         console.log(database)
@@ -42,7 +42,7 @@ function saveDatabase(firebaseApp: firebase.app.App) {
         if (error.message) {
             let message = error.message.split(/FIREBASE|ERROR:\s?/)
             message = message[message.length - 1]
-            console.log(message)
+            dispatch(statusError(message))
             // TODO: Dispatch error
         }
 

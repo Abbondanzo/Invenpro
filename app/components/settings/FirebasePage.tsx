@@ -64,7 +64,7 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
                     {
                         stateMap.map((item: { stateItemKey: string, desc: string, example: string }, index: number) => {
                             return (
-                                <div key={index}>
+                                <div className="form-row" key={index}>
                                     <label htmlFor={item.stateItemKey}>{item.desc}</label>
                                     <input type="text" name={item.stateItemKey} onChange={this.handleChange} placeholder={item.example} defaultValue={(this.state.config as any)[item.stateItemKey]} />
                                 </div>
