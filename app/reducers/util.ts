@@ -75,7 +75,7 @@ export default function util(state: UtilState = initialState, action: IUtilActio
  * @param object action to test
  */
 function isActionWithPayload(object: any): object is IUtilActionWithPayload<any> {
-    return 'value' in object;
+    return 'payload' in object;
 }
 
 function utilWithPayload<T>(state: UtilState = initialState, action: IUtilActionWithPayload<T>): UtilState {

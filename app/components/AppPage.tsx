@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Sidebar from "containers/utils/Sidebar";
-import { IStatus, Status } from 'reducers/util';
+import { IStatus } from 'reducers/util';
+import { Status } from 'reducers/util';
 
 let styles = require("./App.scss");
 
@@ -9,34 +10,25 @@ export interface IProps {
     hideStatus(): void
 }
 
-type State = {
-    success: {
-        classList: Array<string>;
-        information: Status
-    };
-    error: {
-        classList: Array<string>;
-        information: Status
-    };
+type MessageItem = {
+    body: string;
+    hasDisplayed: boolean;
+    classList: Array<string>;
 }
 
-export class AppPage extends React.Component<IProps, State> {
+export class AppPage extends React.Component<IProps, { message: MessageItem }> {
     constructor(props: IProps) {
         super(props);
 
         this.state = {
-            success: {
-                classList: [styles['status-container'], styles['status-success']],
-                information: this.props.status.success
-            },
-            error: {
-                classList: [styles['status-container'], styles['status-error']],
-                information: this.props.status.error
+            message: {
+                body: "",
+                classList: [styles['status-container']],
+                hasDisplayed: false
             }
         }
 
-        this.hideSuccess = this.hideSuccess.bind(this)
-        this.hideError = this.hideError.bind(this)
+        this.deleteMessage = this.deleteMessage.bind(this)
     }
 
     componentDidMount() {
@@ -44,72 +36,69 @@ export class AppPage extends React.Component<IProps, State> {
         this.displayError()
     }
 
-    componentDidUpdate() {
-        // this.displaySuccess()
-        // this.displayError()
+    componentDidUpdate(previousProps: IProps) {
+        if (this.props.status.error.message && this.props.status.error.message !== previousProps.status.error.message) {
+            this.setState({
+                message: Object.assign({}, this.state.message, { hasDisplayed: false })
+            }, () => {
+                this.displayError()
+            })
+        }
     }
 
     displaySuccess() {
-        let status = this.state.success
-        if (status.information) {
-            // Append fading animation
-            let newClassList = status.classList
-            newClassList = newClassList.filter(className => className !== styles['slide-out'])
-            newClassList.push(styles['slide-in'])
-            let newStatus = Object.assign({}, status, {
-                classList: newClassList
-            })
-            this.setState(Object.assign({}, this.state, { success: newStatus }))
-            // Time this message out after a time
-            setTimeout(() => {
-                this.hideSuccess()
-            }, status.information.timeout)
-        }
-    }
-
-    hideSuccess() {
-        let status = this.state.success
-        let newClassList = status.classList
-        // Remove slide-in class
-        newClassList = newClassList.filter(className => className !== styles['slide-in'])
-        // Add slide-out class
-        status.classList.push(styles['slide-out'])
-        let newStatus = Object.assign({}, status, {
-            classList: newClassList
-        })
-        this.setState(Object.assign({}, this.state, { success: newStatus }))
-        this.props.hideStatus()
+        let newClassList = [styles['status-container'], styles['status-success']]
+        this.showMessage(newClassList, this.props.status.success)
     }
 
     displayError() {
-        let status = this.state.error
-        if (status.information) {
-            // Append fading animation
-            let newClassList = status.classList
-            newClassList = newClassList.filter(className => className !== styles['slide-out'])
-            newClassList.push(styles['slide-in'])
-            let newStatus = Object.assign({}, status, {
-                classList: newClassList
-            })
-            this.setState(Object.assign({}, this.state, { success: newStatus }))
-            // Time this message out after a time
-            setTimeout(() => {
-                this.hideError()
-            }, status.information.timeout)
-        }
+        let newClassList = [styles['status-container'], styles['status-error']]
+        this.showMessage(newClassList, this.props.status.error)
     }
 
-    hideError() {
-        let status = this.state.error
-        let newClassList = status.classList
-        // Remove slide-in class
-        newClassList = newClassList.filter(className => className !== styles['slide-in'])
-        // Add slide-out class
-        status.classList.push(styles['slide-out'])
-        let newStatus = Object.assign({}, status, {
-            classList: newClassList
+    showMessage(classList: string[], propItem: Status) {
+        if (!this.state.message.hasDisplayed) {
+            // Append fading animation
+            classList.push(styles['slide-in'])
+            // Remove slide-out class
+            classList = classList.filter((className: string) => className !== styles['slide-out'])
+            // Assign new classlist and display status
+            let newStatus = Object.assign({}, this.state.message, {
+                classList: classList,
+                hasDisplayed: true,
+                body: propItem.message
+            })
+            this.setState({ message: newStatus })
+        }
+        let defaultTimeout = propItem.timeout ? propItem.timeout : 5000
+        // TODO: Better timeout queue for overlapping messages
+        setTimeout(() => {
+            this.hideMessage()
+        }, defaultTimeout)
+    }
+
+    hideMessage() {
+        let classList = this.state.message.classList
+        let hasBeenHidden = classList.indexOf(styles['slide-out']) !== -1
+        if (this.state.message.hasDisplayed && !hasBeenHidden) {
+            // Append sliding out animation
+            classList.push(styles['slide-out'])
+            // Remove slide-in class
+            classList = classList.filter((className: string) => className !== styles['slide-in'])
+            // Assign new classlist
+            let newStatus = Object.assign({}, this.state.message, { classList: classList })
+            this.setState(Object.assign({}, this.state, { message: newStatus }))
+        }
+        // Wait for animation to finish before removing status
+        setTimeout(() => {
+            this.deleteMessage()
+        }, 1000)
+    }
+
+    deleteMessage() {
+        this.setState({
+            message: Object.assign({}, this.state.message, { body: "" })
         })
-        this.setState(Object.assign({}, this.state, { error: newStatus }))
         this.props.hideStatus()
     }
 
@@ -121,17 +110,9 @@ export class AppPage extends React.Component<IProps, State> {
                 </div>
                 <div className={styles['content-container']}>
                     {
-                        this.state.success.information && this.state.success.information.message ?
-                            <div onClick={this.hideSuccess} className={this.state.success.classList.join(' ')}>
-                                {this.state.success.information.message}
-                                <button type="button" className={styles['close']}>×</button>
-                            </div>
-                            : null
-                    }
-                    {
-                        this.state.error.information && this.state.error.information.message ?
-                            <div onClick={this.hideError} className={this.state.error.classList.join(' ')}>
-                                {this.state.error.information.message}
+                        this.state.message.hasDisplayed && this.state.message.body ?
+                            <div onClick={this.deleteMessage} className={this.state.message.classList.join(' ')}>
+                                {this.state.message.body}
                                 <button type="button" className={styles['close']}>×</button>
                             </div>
                             : null
