@@ -1,7 +1,11 @@
 @import "./app.fonts";
+$primaryColor: #31475A;
+$secondaryColor: #607A99;
+$primaryTextColor: #686868;
 html,
 body,
 #root {
+	color: $primaryTextColor;
 	margin: 0;
 	height: 100%;
 }
@@ -34,7 +38,7 @@ dir {
 		width: 100%;
 	}
 	input {
-		color: #686868;
+		color: $primaryTextColor;
 		width: 100%;
 		border: none;
 		outline: none;
@@ -48,4 +52,29 @@ dir {
 		}
 	}
 	padding-bottom: 1em;
+}
+
+table {
+	width: 100%;
+	white-space: nowrap;
+	text-align: left;
+	border-spacing: 0;
+	td,
+	th {
+		padding: 10px;
+	}
+	thead {
+		background: $primaryColor;
+		color: #fff;
+	}
+	tbody {
+		tr {
+			&:nth-child(odd) {
+				background: #fff;
+			}
+			&:nth-child(even) {
+				background: #efefef;
+			}
+		}
+	}
 }

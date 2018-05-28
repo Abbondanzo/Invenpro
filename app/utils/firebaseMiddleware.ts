@@ -2,6 +2,7 @@ import * as firebase from 'firebase';
 import { FirebaseConfig, KeylessFirebaseConfig } from 'reducers/util';
 import { saveConfig, statusError } from 'actions/utilActions';
 import { statusSuccess } from 'actions/utilActions';
+import FirebaseManager from './firebaseDatabase';
 // import Store = require("electron-store");
 
 const keytar = require('keytar')
@@ -58,7 +59,7 @@ function saveDatabase(firebaseApp: firebase.app.App, dispatch: Function) {
 	try {
 		let database = firebaseApp.database()
 		dispatch(statusSuccess("Firebase database successfully initialized"))
-		console.log(database)
+		FirebaseManager.getInstance().setDatabase(database)
 	} catch (error) {
 		if (error.message) {
 			let message = error.message.split(/FIREBASE|ERROR:\s?/)

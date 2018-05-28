@@ -4,6 +4,7 @@ import {
 	IUserActionPayload
 } from "actions/userActions";
 import guid from "utils/uuid";
+import FirebaseManager from "utils/firebaseDatabase";
 
 const initialState: UserState = {
 	userList: [],
@@ -19,6 +20,8 @@ export type User = {
 	name: string;
 	id: string;
 };
+
+const firebaseManager = FirebaseManager.getInstance()
 
 /**
  * Reducer over user state.
@@ -36,16 +39,24 @@ export default function user(
 
 	// Check if the action contains a payload, and return the state if it does
 	if (isActionWithPayload(action)) {
-		return userWithPayload(state, action);
+		let newUserState = userWithPayload(state, action);
+		firebaseManager.storeUserState(newUserState)
+		return newUserState;
 	}
+
+	let newUserState;
 	switch (action.type) {
 		case UserActionTypes.addUser:
-			return addUserState(state, action.user);
+			newUserState = addUserState(state, action.user);
+			break;
 		case UserActionTypes.selectUser:
-			return selectUser(state, action.user);
+			newUserState = selectUser(state, action.user);
+			break;
 		default:
 			return state;
 	}
+	firebaseManager.storeUserState(state)
+	return newUserState;
 }
 
 /**

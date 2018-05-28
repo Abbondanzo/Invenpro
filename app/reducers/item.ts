@@ -1,5 +1,6 @@
 import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from "actions/itemActions";
 import guid from "utils/uuid";
+import FirebaseManager from "utils/firebaseDatabase";
 
 export type Item = {
 	owner: string; // User UUID
@@ -18,6 +19,8 @@ const initialState: ItemState = {
 	itemMap: new Map()
 }
 
+const firebaseManager = FirebaseManager.getInstance()
+
 /**
  * Reducer over user state.
  * @param state Contains properties to carry into the newly returned state
@@ -25,12 +28,14 @@ const initialState: ItemState = {
  */
 export default function item(state: ItemState = initialState, action: IItemAction): ItemState {
 	if (!ItemActionTypes) {
-		return state;
+		return state
 	}
 
 	// Check if the action contains a payload, and return the state if it does
 	if (isActionWithPayload(action)) {
-		return itemWithPayload(state, action);
+		let newState = itemWithPayload(state, action)
+		firebaseManager.storeItemState(newState)
+		return newState
 	}
 
 	switch (action.type) {
@@ -39,7 +44,9 @@ export default function item(state: ItemState = initialState, action: IItemActio
 			if (action.item) {
 				map.delete(action.item)
 			}
-			return { itemMap: map }
+			let newState = { itemMap: map }
+			firebaseManager.storeItemState(newState)
+			return newState
 		default:
 			return state;
 	}
