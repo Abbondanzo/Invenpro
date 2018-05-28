@@ -6,22 +6,22 @@ import * as UtilActions from "actions/utilActions";
 import * as Firebase from "utils/firebaseMiddleware";
 import { IState } from "reducers";
 import { IAction } from "actions/helpers";
+import { getApiKey } from "utils/firebaseMiddleware";
 
 function mapStateToProps(state: IState): Partial<IProps> {
-    let keylessConfig = state.util.firebaseConfig
-    let config = Object.assign(keylessConfig, {
-        apiKey: ""
-    })
-    // Config
-    return {
-        config: config
-    }
+	let keylessConfig = state.util.firebaseConfig
+	return {
+		apiKey: getApiKey(keylessConfig.projectId),
+		keylessConfig: Object.assign(keylessConfig, {
+			apiKey: ""
+		})
+	}
 }
 
 function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
-    return bindActionCreators(Object.assign({}, UtilActions, Firebase), dispatch);
+	return bindActionCreators(Object.assign({}, UtilActions, Firebase), dispatch);
 }
 
 export default (connect(mapStateToProps, mapDispatchToProps)(
-    FirebasePage
+	FirebasePage
 ) as any) as React.StatelessComponent<IProps>;
