@@ -2,8 +2,9 @@ import * as Firebase from "firebase"
 import { IUtilAction } from "actions/utilActions";
 import { Types as UtilActionTypes } from "actions/utilActions";
 import { IUtilActionWithPayload } from "actions/utilActions";
+import Store = require("electron-store");
 
-const initialState: UtilState = {
+export const initialState: UtilState = {
 	firebaseDatabase: null,
 	firebaseConfig: {
 		projectId: "",
@@ -43,7 +44,7 @@ export type Status = {
 }
 
 /**
- * Performs action over utility state with the given {@link IUtilAction}
+ * Performs action over utility state with the given {@link IUtilAction}.
  * @param state previous (or initial) utility state
  * @param action action to perform over the given state
  */
@@ -59,6 +60,11 @@ export default function util(state: UtilState = initialState, action: IUtilActio
 	}
 
 	switch (action.type) {
+		case UtilActionTypes.deleteCache:
+			let electronStore = new Store()
+			electronStore.delete('store')
+			console.log(state)
+			return state;
 		case UtilActionTypes.hideStatus:
 			let newStatus = {
 				success: {},
@@ -78,7 +84,13 @@ function isActionWithPayload(object: any): object is IUtilActionWithPayload<any>
 	return 'payload' in object;
 }
 
-function utilWithPayload<T>(state: UtilState = initialState, action: IUtilActionWithPayload<T>): UtilState {
+/**
+ * Performs action containing payload over utility state with given {@link IUtilActionWithPayload}.
+ * @param state previous (or initial) utility state
+ * @param action action to perform over the given state
+ */
+function utilWithPayload<T>(state: UtilState = initialState, action: IUtilActionWithPayload<T>):
+	UtilState {
 	let newStatus;
 	switch (action.type) {
 		case UtilActionTypes.saveConfig:

@@ -30,7 +30,6 @@ export class ItemListPage extends React.Component<IProps> {
 									)
 								}
 								return undefined
-
 							})
 						}
 					</tbody>

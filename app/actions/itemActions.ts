@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { Item } from "reducers/item";
+import { Item, ItemState } from "reducers/item";
 
 export const Types = {
 	addItem: "ADD_ITEM",
@@ -8,7 +8,7 @@ export const Types = {
 	addUser: "ADD_USER_TO_ITEM",
 	deleteUser: "DELETE_USER_FROM_ITEM",
 	editOwner: "EDIT_OWNER",
-
+	firebaseItem: "FIREBASE_ITEM_UPDATE"
 }
 
 /**
@@ -24,6 +24,14 @@ export interface IItemAction extends Action {
  */
 export interface IItemActionWithPayload<T> extends IItemAction {
 	readonly payload: T
+}
+
+export function firebaseItem(itemState: ItemState): IItemActionWithPayload<ItemState> {
+	return {
+		type: Types.firebaseItem,
+		item: null,
+		payload: itemState
+	}
 }
 
 export function addItem(item: Item): IItemActionWithPayload<Item> {

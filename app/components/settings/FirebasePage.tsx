@@ -3,7 +3,7 @@ import { FirebaseConfig, KeylessFirebaseConfig } from "reducers/util"
 
 export interface IProps {
 	keylessConfig: KeylessFirebaseConfig;
-	apiKey: Promise<string>
+	apiKey: Promise<string> | null
 	initializeFirebase(config: FirebaseConfig): void;
 }
 
@@ -22,16 +22,19 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
 	}
 
 	componentDidMount() {
-		this.props.apiKey.then((apiKey: string) => {
-			let newConfig = Object.assign({}, this.state.config, {
-				apiKey: apiKey
+		// If there is a promise, execute
+		if (this.props.apiKey) {
+			this.props.apiKey.then((apiKey: string) => {
+				let newConfig = Object.assign({}, this.state.config, {
+					apiKey: apiKey
+				})
+				this.setState({
+					config: newConfig
+				})
+			}).catch((error: any) => {
+				console.error(error)
 			})
-			this.setState({
-				config: newConfig
-			})
-		}).catch((error: any) => {
-			console.error(error)
-		})
+		}
 	}
 
 	handleChange(event: React.FormEvent<HTMLInputElement>) {

@@ -1,60 +1,69 @@
 import { Action } from "redux";
 import { User } from "reducers/user";
+import { UserState } from "reducers/user";
 
 const { history } = require('store/configureStore');
 
 export const Types = {
-    addUser: "ADD_USER",
-    selectUser: "SELECT_USER",
-    updateName: "UPDATE_NAME",
-    editUser: "EDIT_USER"
+	addUser: "ADD_USER",
+	selectUser: "SELECT_USER",
+	updateName: "UPDATE_NAME",
+	editUser: "EDIT_USER",
+	firebaseUser: "FIREBASE_USER_UPDATE"
 };
 
 /**
  * An action over a single user
  */
 export interface IUserAction extends Action {
-    readonly type: String;
-    readonly user: User;
+	readonly type: String;
+	readonly user: string;
 }
 
 /**
  * An action over a single user containing a payload of information
  */
-export interface IUserActionPayload<T> extends IUserAction {
-    readonly value: T;
+export interface IUserActionWithPayload<T> extends IUserAction {
+	readonly payload: T;
 }
 
-export function addUser(user: User): IUserAction {
-    return {
-        type: Types.addUser,
-        user: user
-    };
+export function addUser(user: User): IUserActionWithPayload<User> {
+	return {
+		type: Types.addUser,
+		user: "",
+		payload: user
+	};
 }
 
-export function selectUser(user: User): IUserAction {
-    history.push('/users/edit-user')
-    return {
-        type: Types.selectUser,
-        user: user
-    }
+export function selectUser(userId: string): IUserAction {
+	history.push('/users/edit-user')
+	return {
+		type: Types.selectUser,
+		user: userId
+	}
 }
 
-export function editUser(oldUser: User, newUser: User): IUserActionPayload<User> {
-    return {
-        type: Types.editUser,
-        user: oldUser,
-        value: newUser
-    }
+export function editUser(oldUser: User, newUser: User): IUserActionWithPayload<User> {
+	return {
+		type: Types.editUser,
+		user: oldUser.id,
+		payload: newUser
+	}
 }
 
-export function updateName(
-    value: String,
-    user: User
-): IUserActionPayload<String> {
-    return {
-        type: Types.updateName,
-        user: user,
-        value: value
-    };
+export function updateName(newName: String, user: User): IUserActionWithPayload<String> {
+	return {
+		type: Types.updateName,
+		user: user.id,
+		payload: newName
+	};
+}
+
+
+export function firebaseUser(newUserState: UserState): IUserActionWithPayload<UserState> {
+	return {
+		type: Types.firebaseUser,
+		user: "",
+		payload: newUserState
+	}
 }

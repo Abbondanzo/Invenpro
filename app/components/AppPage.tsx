@@ -7,7 +7,8 @@ let styles = require("./AppPage.scss");
 
 export interface IProps {
 	status: IStatus,
-	hideStatus(): void
+	hideStatus(): void,
+	loadFirebase(): void
 }
 
 type MessageItem = {
@@ -33,6 +34,7 @@ export class AppPage extends React.Component<IProps, { message: MessageItem, tim
 	}
 
 	componentDidMount() {
+		this.props.loadFirebase()
 		this.displaySuccess()
 		this.displayError()
 	}

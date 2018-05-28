@@ -4,12 +4,12 @@ import App from "containers/App";
 import Home from "containers/Home";
 import ItemList from "containers/items/ItemList";
 import UserList from "containers/users/UserList";
-import Firebase from "containers/settings/Firebase";
+import Settings from "containers/settings/Settings";
 
 export default () => (
 	<App>
 		<Switch>
-			<Route path="/settings" component={Firebase} />
+			<Route path="/settings" component={Settings} />
 			<Route path="/users" component={UserList} />
 			<Route path="/items" component={ItemList} />
 			<Route path="/" component={Home} />

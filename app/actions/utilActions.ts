@@ -7,7 +7,8 @@ export const Types = {
 	saveDatabase: "SAVE_DATABASE",
 	statusSuccess: "STATUS_SUCCESS",
 	statusError: "STATUS_ERROR",
-	hideStatus: "STATUS_HIDE"
+	hideStatus: "STATUS_HIDE",
+	deleteCache: "DELETE_CACHE"
 }
 
 /**
@@ -52,5 +53,11 @@ export function statusError(errorMessage: string): IUtilActionWithPayload<string
 export function hideStatus(): IUtilAction {
 	return {
 		type: Types.hideStatus
+	}
+}
+
+export function deleteCache(): IUtilAction {
+	return {
+		type: Types.deleteCache
 	}
 }

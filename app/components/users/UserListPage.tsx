@@ -6,9 +6,9 @@ import { User } from "reducers/user";
 let styles = require("./UserList.scss");
 
 export interface IProps extends RouteComponentProps<any> {
-	userList: Array<User>;
+	userMap: Map<string, User>;
 	editUser(user: User): void;
-	selectUser(user: User): void;
+	selectUser(userId: string): void;
 }
 
 export class UserListPage extends React.Component<IProps> {
@@ -17,8 +17,8 @@ export class UserListPage extends React.Component<IProps> {
 		this.selectUser = this.selectUser.bind(this);
 	}
 
-	selectUser(user: User) {
-		this.props.selectUser(user)
+	selectUser(userId: string) {
+		this.props.selectUser(userId)
 	}
 
 	render() {
@@ -33,15 +33,19 @@ export class UserListPage extends React.Component<IProps> {
 					</thead>
 					<tbody>
 						{
-							this.props.userList.map((user: User) => {
-								return (
-									<tr key={user.id}>
-										<td>{user.name}</td>
-										<td>
-											<button onClick={() => { this.selectUser(user) }}>Edit</button>
-										</td>
-									</tr>
-								);
+							Array.from(this.props.userMap).map(([key, value]) => {
+								let user: User = value
+								if (user && user.id) {
+									return (
+										<tr key={key}>
+											<td>{user.name}</td>
+											<td>
+												<button onClick={() => { this.selectUser(user.id) }}>Edit</button>
+											</td>
+										</tr>
+									);
+								}
+								return undefined
 							})
 						}
 					</tbody>

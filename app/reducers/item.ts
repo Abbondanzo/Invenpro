@@ -15,7 +15,7 @@ export type ItemState = {
 	itemMap: Map<string, Item>
 }
 
-const initialState: ItemState = {
+export const initialState: ItemState = {
 	itemMap: new Map()
 }
 
@@ -75,6 +75,8 @@ function isItem(object: any): object is Item {
  */
 function itemWithPayload<T>(state: ItemState = initialState, action: IItemActionWithPayload<T>): ItemState {
 	switch (action.type) {
+		case ItemActionTypes.firebaseItem:
+			return Object.assign({}, state, action.payload)
 		case ItemActionTypes.addItem:
 			if (isItem(action.payload)) {
 				let map = state.itemMap
