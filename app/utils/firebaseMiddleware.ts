@@ -90,9 +90,10 @@ export function getApiKey(projectDomain: string): Promise<string> | null {
 function saveDatabase(firebaseApp: firebase.app.App, dispatch: Function) {
 	try {
 		let database = firebaseApp.database()
-		FirebaseManager.getInstance().setDatabase(database)
+		let firebaseManager = FirebaseManager.getInstance()
+		firebaseManager.setDatabase(database)
 		dispatch(statusSuccess("Firebase database successfully initialized"))
-		//setListeners(dispatch)
+		firebaseManager.subscribeToStore()
 	} catch (error) {
 		if (error.message) {
 			let message = error.message.split(/FIREBASE|ERROR:\s?/)

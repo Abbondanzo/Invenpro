@@ -4,16 +4,10 @@ import {
 	IUserActionWithPayload
 } from "actions/userActions";
 import guid from "utils/uuid";
-import FirebaseManager from "utils/firebaseDatabase";
 
 export const initialState: UserState = {
-	userMap: new Map(),
+	userMap: {},
 	currentUser: undefined
-};
-
-export type UserState = {
-	userMap: Map<string, User>;
-	currentUser: User | undefined;
 };
 
 export type User = {
@@ -21,7 +15,14 @@ export type User = {
 	id: string;
 };
 
-const firebaseManager = FirebaseManager.getInstance()
+export type UserMap = { [key: string]: User }
+
+export type UserState = {
+	userMap: UserMap;
+	currentUser: User | undefined;
+};
+
+
 
 /**
  * Reducer over user state.
@@ -39,21 +40,15 @@ export default function user(
 
 	// Check if the action contains a payload, and return the state if it does
 	if (isActionWithPayload(action)) {
-		let newUserState = userWithPayload(state, action);
-		firebaseManager.storeUserState(newUserState)
-		return newUserState;
+		return userWithPayload(state, action);
 	}
 
-	let newUserState;
 	switch (action.type) {
 		case UserActionTypes.selectUser:
-			newUserState = selectUser(state, action.user);
-			break;
+			return selectUser(state, action.user);
 		default:
 			return state;
 	}
-	firebaseManager.storeUserState(state)
-	return newUserState;
 }
 
 /**
@@ -82,14 +77,7 @@ function userWithPayload<T>(state: UserState = initialState, action: IUserAction
 		return state
 	}
 
-	let oldUser
-	try {
-		oldUser = state.userMap.get(action.user)
-	} catch (error) {
-		// Map was turned into an object--convert it back
-		state.userMap = convertObjectToMap(state.userMap)
-		oldUser = state.userMap.get(action.user)
-	}
+	let oldUser = state.userMap[action.user]
 	switch (action.type) {
 		case UserActionTypes.addUser:
 			if (isUser(action.payload)) {
@@ -114,15 +102,6 @@ function userWithPayload<T>(state: UserState = initialState, action: IUserAction
 	}
 }
 
-function convertObjectToMap(object: any): Map<any, any> {
-	let map = new Map();
-	Object.keys(object).map((key: any) => {
-		let value = object[key]
-		map.set(key, value)
-	})
-	return map
-}
-
 /**
  * Given a user and a set of parameters, returns a user with those new values.
  * @param oldUser old user to update
@@ -142,11 +121,11 @@ function updateUser(oldUser: User, newValues: Object): User {
 function addUserState(oldState: UserState, newUser: User): UserState {
 	let userMap = oldState.userMap;
 	let newUserId = guid()
-	while (userMap.get(newUserId)) {
+	while (userMap[newUserId]) {
 		newUserId = guid()
 	}
 	Object.assign(newUser, { id: newUserId })
-	userMap.set(newUserId, newUser)
+	userMap[newUserId] = newUser
 	return Object.assign({}, oldState, { userMap: userMap });
 }
 
@@ -158,7 +137,7 @@ function addUserState(oldState: UserState, newUser: User): UserState {
  * @param selectedUser user id to select
  */
 function selectUser(oldState: UserState, selectedUser: string): UserState {
-	return Object.assign({}, oldState, { currentUser: oldState.userMap.get(selectedUser) });
+	return Object.assign({}, oldState, { currentUser: oldState.userMap[selectedUser] });
 }
 
 /**
@@ -170,6 +149,6 @@ function selectUser(oldState: UserState, selectedUser: string): UserState {
  */
 function updateUserState(oldState: UserState, oldUserId: string, newUser: User): UserState {
 	let userMap = oldState.userMap;
-	userMap.set(oldUserId, newUser)
+	userMap[oldUserId] = newUser
 	return Object.assign({}, oldState, { userMap: userMap });
 }

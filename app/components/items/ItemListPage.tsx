@@ -1,9 +1,9 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
-import { Item } from "reducers/item"
+import { ItemMap } from "reducers/item"
 
 export interface IProps extends RouteComponentProps<any> {
-	itemMap: Map<string, Item>
+	itemMap: ItemMap
 }
 
 export class ItemListPage extends React.Component<IProps> {
@@ -20,7 +20,7 @@ export class ItemListPage extends React.Component<IProps> {
 					<tbody>
 						{
 							Object.keys(this.props.itemMap).map((itemKey: string) => {
-								let item = this.props.itemMap.get(itemKey)
+								let item = this.props.itemMap[itemKey]
 								if (item) {
 									return (
 										<tr>

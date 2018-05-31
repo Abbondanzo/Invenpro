@@ -1,10 +1,8 @@
 import { Action } from "redux";
 import { KeylessFirebaseConfig } from "reducers/util";
-import * as firebase from 'firebase';
 
 export const Types = {
 	saveConfig: "SAVE_CONFIG",
-	saveDatabase: "SAVE_DATABASE",
 	statusSuccess: "STATUS_SUCCESS",
 	statusError: "STATUS_ERROR",
 	hideStatus: "STATUS_HIDE",
@@ -26,13 +24,6 @@ export function saveConfig(config: KeylessFirebaseConfig): IUtilActionWithPayloa
 	return {
 		type: Types.saveConfig,
 		payload: config
-	}
-}
-
-export function saveDatabase(database: firebase.database.Database): IUtilActionWithPayload<firebase.database.Database> {
-	return {
-		type: Types.saveDatabase,
-		payload: database
 	}
 }
 

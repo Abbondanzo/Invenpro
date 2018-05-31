@@ -1,12 +1,12 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
-import { User } from "reducers/user";
+import { User, UserMap } from "reducers/user";
 
 let styles = require("./UserList.scss");
 
 export interface IProps extends RouteComponentProps<any> {
-	userMap: Map<string, User>;
+	userMap: UserMap;
 	editUser(user: User): void;
 	selectUser(userId: string): void;
 }
@@ -33,8 +33,8 @@ export class UserListPage extends React.Component<IProps> {
 					</thead>
 					<tbody>
 						{
-							Array.from(this.props.userMap).map(([key, value]) => {
-								let user: User = value
+							Object.keys(this.props.userMap).map((key: string) => {
+								let user: User = this.props.userMap[key]
 								if (user && user.id) {
 									return (
 										<tr key={key}>

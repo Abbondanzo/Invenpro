@@ -2,7 +2,6 @@ import * as Firebase from "firebase"
 import { IUtilAction } from "actions/utilActions";
 import { Types as UtilActionTypes } from "actions/utilActions";
 import { IUtilActionWithPayload } from "actions/utilActions";
-import Store = require("electron-store");
 
 export const initialState: UtilState = {
 	firebaseDatabase: null,
@@ -60,11 +59,6 @@ export default function util(state: UtilState = initialState, action: IUtilActio
 	}
 
 	switch (action.type) {
-		case UtilActionTypes.deleteCache:
-			let electronStore = new Store()
-			electronStore.delete('store')
-			console.log(state)
-			return state;
 		case UtilActionTypes.hideStatus:
 			let newStatus = {
 				success: {},

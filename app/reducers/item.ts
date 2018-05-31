@@ -1,6 +1,5 @@
 import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from "actions/itemActions";
 import guid from "utils/uuid";
-import FirebaseManager from "utils/firebaseDatabase";
 
 export type Item = {
 	owner: string; // User UUID
@@ -11,15 +10,15 @@ export type Item = {
 	users: Array<string>; // A list of UUID who pay for that item. Can include owner
 }
 
+export type ItemMap = { [key: string]: Item }
+
 export type ItemState = {
-	itemMap: Map<string, Item>
+	itemMap: ItemMap
 }
 
 export const initialState: ItemState = {
-	itemMap: new Map()
+	itemMap: {}
 }
-
-const firebaseManager = FirebaseManager.getInstance()
 
 /**
  * Reducer over user state.
@@ -33,20 +32,16 @@ export default function item(state: ItemState = initialState, action: IItemActio
 
 	// Check if the action contains a payload, and return the state if it does
 	if (isActionWithPayload(action)) {
-		let newState = itemWithPayload(state, action)
-		firebaseManager.storeItemState(newState)
-		return newState
+		return itemWithPayload(state, action)
 	}
 
 	switch (action.type) {
 		case ItemActionTypes.deleteItem:
 			let map = state.itemMap
 			if (action.item) {
-				map.delete(action.item)
+				delete map[action.item]
 			}
-			let newState = { itemMap: map }
-			firebaseManager.storeItemState(newState)
-			return newState
+			return { itemMap: map }
 		default:
 			return state;
 	}
@@ -83,7 +78,7 @@ function itemWithPayload<T>(state: ItemState = initialState, action: IItemAction
 				let uuid = getNewUUID(map)
 				let oldItem: Item = action.payload
 				let newItem: Item = Object.assign({}, oldItem, { id: uuid })
-				map.set(uuid, newItem)
+				map[uuid] = newItem
 				return {
 					itemMap: map
 				}
@@ -100,20 +95,20 @@ function itemWithPayload<T>(state: ItemState = initialState, action: IItemAction
 	}
 }
 
-function getNewUUID(itemMap: Map<string, Item>): string {
+function getNewUUID(itemMap: ItemMap): string {
 	let uuid = guid()
 	// Generate a new UUID if the map already contains one. Only a 1.06*10^51 chance.
-	while (itemMap.get(uuid)) {
+	while (itemMap[uuid]) {
 		uuid = guid()
 	}
 	return uuid
 }
 
-function editItem(itemId: string, item: Item, itemMap: Map<string, Item>): Map<string, Item> {
+function editItem(itemId: string, item: Item, itemMap: ItemMap): ItemMap {
 	if (!item.id) {
 		item = Object.assign({}, item, { id: itemId })
 	}
-	let previousItem = itemMap.get(itemId)
-	itemMap.set(itemId, Object.assign(previousItem, item))
+	let previousItem = itemMap[itemId]
+	itemMap[itemId] = Object.assign(previousItem, item)
 	return itemMap
 }
