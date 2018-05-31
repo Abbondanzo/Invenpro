@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from 'react';
 
-let styles = require("./HomePage.scss");
+let styles = require('./HomePage.scss');
 
 export default class HomePage extends React.Component {
     render() {

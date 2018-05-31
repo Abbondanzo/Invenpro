@@ -9,8 +9,8 @@ const router = routerMiddleware(history);
 const enhancer = applyMiddleware(thunk, router);
 
 export = {
-  history,
-  configureStore(initialState: Object | void) {
-    return createStore(rootReducer, initialState, enhancer);
-  }
+    history,
+    configureStore(initialState: Object | void) {
+        return createStore(rootReducer, initialState, enhancer);
+    }
 };

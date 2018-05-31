@@ -1,24 +1,24 @@
-import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from "actions/itemActions";
-import guid from "utils/uuid";
+import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from 'actions/itemActions';
+import guid from 'utils/uuid';
 
 export type Item = {
-	owner: string; // User UUID
-	name: string;
-	id: string; // Identifying UUID (name is not an ID)
-	price: number; // Floating point
-	upc: number | null;
-	users: Array<string>; // A list of UUID who pay for that item. Can include owner
-}
+    owner: string; // User UUID
+    name: string;
+    id: string; // Identifying UUID (name is not an ID)
+    price: number; // Floating point
+    upc: number | null;
+    users: Array<string>; // A list of UUID who pay for that item. Can include owner
+};
 
-export type ItemMap = { [key: string]: Item }
+export type ItemMap = { [key: string]: Item };
 
 export type ItemState = {
-	itemMap: ItemMap
-}
+    itemMap: ItemMap;
+};
 
 export const initialState: ItemState = {
-	itemMap: {}
-}
+    itemMap: {}
+};
 
 /**
  * Reducer over user state.
@@ -26,25 +26,25 @@ export const initialState: ItemState = {
  * @param action Information containing updates to the state
  */
 export default function item(state: ItemState = initialState, action: IItemAction): ItemState {
-	if (!ItemActionTypes) {
-		return state
-	}
+    if (!ItemActionTypes) {
+        return state;
+    }
 
-	// Check if the action contains a payload, and return the state if it does
-	if (isActionWithPayload(action)) {
-		return itemWithPayload(state, action)
-	}
+    // Check if the action contains a payload, and return the state if it does
+    if (isActionWithPayload(action)) {
+        return itemWithPayload(state, action);
+    }
 
-	switch (action.type) {
-		case ItemActionTypes.deleteItem:
-			let map = state.itemMap
-			if (action.item) {
-				delete map[action.item]
-			}
-			return { itemMap: map }
-		default:
-			return state;
-	}
+    switch (action.type) {
+        case ItemActionTypes.deleteItem:
+            let map = state.itemMap;
+            if (action.item) {
+                delete map[action.item];
+            }
+            return { itemMap: map };
+        default:
+            return state;
+    }
 }
 
 /**
@@ -52,7 +52,7 @@ export default function item(state: ItemState = initialState, action: IItemActio
  * @param object action to test
  */
 function isActionWithPayload(object: any): object is IItemActionWithPayload<any> {
-	return 'payload' in object;
+    return 'payload' in object;
 }
 
 /**
@@ -60,7 +60,7 @@ function isActionWithPayload(object: any): object is IItemActionWithPayload<any>
  * @param object action to test
  */
 function isItem(object: any): object is Item {
-	return (<Item>object).owner !== undefined;
+    return (<Item>object).owner !== undefined;
 }
 
 /**
@@ -68,47 +68,50 @@ function isItem(object: any): object is Item {
  * @param state State containing information about the items
  * @param action Action that contains a payload to update the item with
  */
-function itemWithPayload<T>(state: ItemState = initialState, action: IItemActionWithPayload<T>): ItemState {
-	switch (action.type) {
-		case ItemActionTypes.firebaseItem:
-			return Object.assign({}, state, action.payload)
-		case ItemActionTypes.addItem:
-			if (isItem(action.payload)) {
-				let map = state.itemMap
-				let uuid = getNewUUID(map)
-				let oldItem: Item = action.payload
-				let newItem: Item = Object.assign({}, oldItem, { id: uuid })
-				map[uuid] = newItem
-				return {
-					itemMap: map
-				}
-			}
-		case ItemActionTypes.editItem:
-			if (action.item && isItem(action.payload)) {
-				return {
-					itemMap: editItem(action.item, action.payload, state.itemMap)
-				}
-			}
+function itemWithPayload<T>(
+    state: ItemState = initialState,
+    action: IItemActionWithPayload<T>
+): ItemState {
+    switch (action.type) {
+        case ItemActionTypes.firebaseItem:
+            return Object.assign({}, state, action.payload);
+        case ItemActionTypes.addItem:
+            if (isItem(action.payload)) {
+                let map = state.itemMap;
+                let uuid = getNewUUID(map);
+                let oldItem: Item = action.payload;
+                let newItem: Item = Object.assign({}, oldItem, { id: uuid });
+                map[uuid] = newItem;
+                return {
+                    itemMap: map
+                };
+            }
+        case ItemActionTypes.editItem:
+            if (action.item && isItem(action.payload)) {
+                return {
+                    itemMap: editItem(action.item, action.payload, state.itemMap)
+                };
+            }
 
-		default:
-			return state;
-	}
+        default:
+            return state;
+    }
 }
 
 function getNewUUID(itemMap: ItemMap): string {
-	let uuid = guid()
-	// Generate a new UUID if the map already contains one. Only a 1.06*10^51 chance.
-	while (itemMap[uuid]) {
-		uuid = guid()
-	}
-	return uuid
+    let uuid = guid();
+    // Generate a new UUID if the map already contains one. Only a 1.06*10^51 chance.
+    while (itemMap[uuid]) {
+        uuid = guid();
+    }
+    return uuid;
 }
 
 function editItem(itemId: string, item: Item, itemMap: ItemMap): ItemMap {
-	if (!item.id) {
-		item = Object.assign({}, item, { id: itemId })
-	}
-	let previousItem = itemMap[itemId]
-	itemMap[itemId] = Object.assign(previousItem, item)
-	return itemMap
+    if (!item.id) {
+        item = Object.assign({}, item, { id: itemId });
+    }
+    let previousItem = itemMap[itemId];
+    itemMap[itemId] = Object.assign(previousItem, item);
+    return itemMap;
 }
