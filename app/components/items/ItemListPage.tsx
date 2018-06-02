@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Link } from 'react-router-dom';
+
 import { ItemMap } from 'reducers/item';
 
 export interface IProps extends RouteComponentProps<any> {
@@ -32,6 +34,9 @@ export class ItemListPage extends React.Component<IProps> {
                         })}
                     </tbody>
                 </table>
+                <div data-tid="addButton">
+                    <Link to="/items/item">Add Item</Link>
+                </div>
             </div>
         );
     }

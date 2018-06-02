@@ -6,6 +6,7 @@ import { IAction } from 'actions/helpers';
 import * as ItemActions from 'actions/itemActions';
 import { ItemListPage, IProps } from 'components/items/ItemListPage';
 import { IState } from 'reducers';
+import ItemFields from 'containers/items/ItemFields';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
@@ -25,6 +26,7 @@ export default (): any => (
     <div>
         <h1>Items</h1>
         <Switch>
+            <Route path="/items/item" component={ItemFields} />
             <Route exact path="/items" component={itemComponent} />
         </Switch>
     </div>

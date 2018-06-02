@@ -13,10 +13,12 @@ export type Item = {
 export type ItemMap = { [key: string]: Item };
 
 export type ItemState = {
+    currentItem: Item | null;
     itemMap: ItemMap;
 };
 
 export const initialState: ItemState = {
+    currentItem: null,
     itemMap: {}
 };
 
@@ -41,7 +43,7 @@ export default function item(state: ItemState = initialState, action: IItemActio
             if (action.item) {
                 delete map[action.item];
             }
-            return { itemMap: map };
+            return Object.assign({}, state, { itemMap: map });
         default:
             return state;
     }
@@ -82,15 +84,13 @@ function itemWithPayload<T>(
                 let oldItem: Item = action.payload;
                 let newItem: Item = Object.assign({}, oldItem, { id: uuid });
                 map[uuid] = newItem;
-                return {
-                    itemMap: map
-                };
+                return Object.assign({}, state, { itemMap: map });
             }
         case ItemActionTypes.editItem:
             if (action.item && isItem(action.payload)) {
-                return {
+                return Object.assign({}, state, {
                     itemMap: editItem(action.item, action.payload, state.itemMap)
-                };
+                });
             }
         case ItemActionTypes.firebaseItem:
             return Object.assign({}, state, action.payload);
