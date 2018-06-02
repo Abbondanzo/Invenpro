@@ -2,12 +2,15 @@ import * as firebase from 'firebase';
 import { ItemState } from 'reducers/item';
 import { UserState } from 'reducers/user';
 import { IState } from 'reducers';
+import { firebaseItem } from 'actions/itemActions';
+import { firebaseUser } from 'actions/userActions';
 
 const FIREBASE_ITEMS = '/items';
 const FIREBASE_USERS = '/users';
 
 export default class FirebaseManager {
     static instance: FirebaseManager | null = null;
+    _store: any;
     _database: firebase.database.Database;
     itemState: ItemState;
     userState: UserState;
@@ -21,6 +24,7 @@ export default class FirebaseManager {
         if (FirebaseManager.instance == null) {
             FirebaseManager.instance = new FirebaseManager();
         }
+
         return FirebaseManager.instance;
     }
 
@@ -45,13 +49,39 @@ export default class FirebaseManager {
      */
     subscribeToStore() {
         let { store } = require('store/store');
-        store.subscribe(() => {
-            console.log('Store change!');
-            let state: IState = store.getState();
+        this._store = store;
+        this._store.subscribe(() => {
+            let state: IState = this._store.getState();
             // These will succeed and send the first time there is a valid database
             this.storeItemState(state.item);
             this.storeUserState(state.user);
         });
+        this.subscribeToFirebase();
+    }
+
+    /**
+     * Subscribes to changes from the Firebase database references to update specific states.
+     */
+    subscribeToFirebase() {
+        let itemStateGetter = this.getItemState();
+        if (itemStateGetter) {
+            itemStateGetter.on('value', (snapshot: firebase.database.DataSnapshot) => {
+                let newItemState: ItemState = snapshot.val();
+                if (newItemState) {
+                    this._store.dispatch(firebaseItem(newItemState));
+                }
+            });
+        }
+
+        let userStateGetter = this.getUserState();
+        if (userStateGetter) {
+            userStateGetter.on('value', (snapshot: firebase.database.DataSnapshot) => {
+                let newUserState: UserState = snapshot.val();
+                if (newUserState) {
+                    this._store.dispatch(firebaseUser(newUserState));
+                }
+            });
+        }
     }
 
     /**
@@ -92,10 +122,8 @@ export default class FirebaseManager {
      * @param state {UserState}
      */
     storeUserState(state: UserState) {
-        console.log('Storing user');
         if (this._database && state != this.userState) {
             this.userState = state;
-            console.log(state);
             this._database.ref(FIREBASE_USERS).set(state);
         }
     }

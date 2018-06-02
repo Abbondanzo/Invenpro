@@ -13,7 +13,7 @@ export const Types = {
 };
 
 /**
- * An action over a single user
+ * An action over a single user.
  */
 export interface IUserAction extends Action {
     readonly type: String;
@@ -21,7 +21,7 @@ export interface IUserAction extends Action {
 }
 
 /**
- * An action over a single user containing a payload of information
+ * An action over a single user containing a payload of information.
  */
 export interface IUserActionWithPayload<T> extends IUserAction {
     readonly payload: T;

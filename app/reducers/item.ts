@@ -92,7 +92,8 @@ function itemWithPayload<T>(
                     itemMap: editItem(action.item, action.payload, state.itemMap)
                 };
             }
-
+        case ItemActionTypes.firebaseItem:
+            return Object.assign({}, state, action.payload);
         default:
             return state;
     }

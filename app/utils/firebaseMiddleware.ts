@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 import { FirebaseConfig, KeylessFirebaseConfig } from 'reducers/util';
 import { saveConfig, statusError } from 'actions/utilActions';
 import { statusSuccess } from 'actions/utilActions';
-import FirebaseManager from './firebaseDatabase';
+import FirebaseManager from 'api/firebaseDatabase';
 // import { ItemState } from 'reducers/item';
 // import { firebaseItem } from 'actions/itemActions';
 // import { UserState } from 'reducers/user';

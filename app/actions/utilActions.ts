@@ -10,12 +10,15 @@ export const Types = {
 };
 
 /**
- * An action containing a payload of type T.
+ * A utility action.
  */
 export interface IUtilAction extends Action {
     readonly type: string;
 }
 
+/**
+ * An action containing a payload of type T.
+ */
 export interface IUtilActionWithPayload<T> extends IUtilAction {
     readonly payload: T;
 }

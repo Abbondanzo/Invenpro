@@ -91,6 +91,8 @@ function userWithPayload<T>(
                     return addUserState(state, action.payload);
                 }
             }
+        case UserActionTypes.firebaseUser:
+            return Object.assign({}, state, action.payload);
         default:
             return state;
     }
