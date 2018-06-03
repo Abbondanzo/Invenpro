@@ -31,7 +31,7 @@ export default function user(state: UserState = initialState, action: IUserActio
 
     // Check if the action contains a payload, and return the state if it does
     if (isActionWithPayload(action)) {
-        return userWithPayload(state, action);
+        return userWithPayload(state, action as IUserActionWithPayload<any>);
     }
 
     switch (action.type) {
@@ -43,10 +43,10 @@ export default function user(state: UserState = initialState, action: IUserActio
 }
 
 /**
- * Returns if the given object is a payload action. That is, the object has a 'value' parameter.
+ * Returns if the given object is a payload action. That is, the object has a 'payload' parameter.
  * @param object action to test
  */
-function isActionWithPayload(object: any): object is IUserActionWithPayload<any> {
+function isActionWithPayload(object: any): Boolean {
     return 'payload' in object;
 }
 
