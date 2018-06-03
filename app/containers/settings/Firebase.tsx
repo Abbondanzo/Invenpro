@@ -3,10 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect, Dispatch } from 'react-redux';
 import { FirebasePage, IProps } from 'components/settings/FirebasePage';
 import * as UtilActions from 'actions/utilActions';
-import * as Firebase from 'utils/firebaseMiddleware';
-import { IState } from 'reducers';
 import { IAction } from 'actions/helpers';
+import * as Firebase from 'utils/firebaseMiddleware';
 import { getApiKey } from 'utils/firebaseMiddleware';
+import { IState } from 'reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     let keylessConfig = state.util.firebaseConfig;

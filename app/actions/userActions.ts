@@ -1,6 +1,5 @@
 import { Action } from 'redux';
-import { User } from 'reducers/user';
-import { UserState } from 'reducers/user';
+import { User, UserState } from 'reducers/user';
 
 const { history } = require('store/configureStore');
 

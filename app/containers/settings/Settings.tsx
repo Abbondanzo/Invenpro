@@ -5,8 +5,8 @@ import { connect, Dispatch } from 'react-redux';
 import { SettingsPage, IProps } from 'components/settings/SettingsPage';
 import Firebase from './Firebase';
 import * as UtilActions from 'actions/utilActions';
-import { IState } from 'reducers';
 import { IAction } from 'actions/helpers';
+import { IState } from 'reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {};

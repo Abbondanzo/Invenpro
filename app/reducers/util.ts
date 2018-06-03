@@ -1,7 +1,5 @@
 import * as Firebase from 'firebase';
-import { IUtilAction } from 'actions/utilActions';
-import { Types as UtilActionTypes } from 'actions/utilActions';
-import { IUtilActionWithPayload } from 'actions/utilActions';
+import { Types as UtilActionTypes, IUtilAction, IUtilActionWithPayload } from 'actions/utilActions';
 
 export const initialState: UtilState = {
     firebaseDatabase: null,

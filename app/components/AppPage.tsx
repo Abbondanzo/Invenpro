@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Sidebar from 'containers/utils/Sidebar';
-import { IStatus } from 'reducers/util';
-import { Status } from 'reducers/util';
+import { IStatus, Status } from 'reducers/util';
 
 let styles = require('./AppPage.scss');
 

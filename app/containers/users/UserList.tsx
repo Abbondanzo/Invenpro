@@ -6,8 +6,8 @@ import { UserListPage, IProps } from 'components/users/UserListPage';
 import AddUser from './AddUser';
 import EditUser from './EditUser';
 import * as UserActions from 'actions/userActions';
-import { IState } from 'reducers';
 import { IAction } from 'actions/helpers';
+import { IState } from 'reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
