@@ -1,10 +1,12 @@
 import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from 'actions/itemActions';
 import guid from 'utils/uuid';
+import { Moment } from 'moment';
 
 export type Item = {
-    owner: string; // User UUID
     name: string;
+    owner: string; // User UUID
     id: string; // Identifying UUID (name is not an ID)
+    date: Moment; // MM/DD/YYYY
     price: number; // Floating point
     upc: number | null;
     users: Array<string>; // A list of UUID who pay for that item. Can include owner
