@@ -25,22 +25,32 @@ export class PriceNumberPage extends React.Component<PriceNumberPageProps, IStat
 
     handleChange(event: React.FormEvent<HTMLInputElement>) {
         event.preventDefault();
-        let value = event.currentTarget.value;
-        console.log(value.slice(value.length - 1) === '.');
-        // Check that there is a valid valid value and number
-        if (value && +value) {
-            if (value.length + 1 == this.state.amount.length) {
+        let value = event.currentTarget.value + '';
+        // Check that there is a valid valid value and this value is a number
+        if (value && !isNaN(+value)) {
+            let splitByDecimal = value.split('.');
+            let decimalValue = splitByDecimal[1];
+            if (!decimalValue) {
+                // Empty field given a new number
+                value = (+value / 100).toFixed(2);
+            } else if (value.length == this.state.amount.length - 1 && decimalValue.length < 2) {
                 // Deleting number
-                value = (+value / 10).toFixed(2);
-            } else {
+
+                // Check if we are deleting from "fractional side" or "integer side" and scale this
+                // change appropriately
+                if (decimalValue.length < 2) {
+                    value = (+value / 10).toFixed(2);
+                } else {
+                    value = (+value).toFixed(2);
+                }
+            } else if (decimalValue.length > 2) {
                 // Adding number
                 value = (+value * 10).toFixed(2);
+            } else {
+                value = (+value).toFixed(2);
             }
-        } else if (!isNaN(+value)) {
-            // Check that the value is a valid number
-            value = '0.00';
         }
-        if (+value < MAX_ITEM_VALUE) {
+        if (+value < MAX_ITEM_VALUE && value !== this.state.amount) {
             this.setState({
                 amount: value
             });
@@ -48,6 +58,8 @@ export class PriceNumberPage extends React.Component<PriceNumberPageProps, IStat
     }
 
     render() {
-        return <input type="text" value={this.state.amount} onChange={this.handleChange} />;
+        return (
+            <input type="text" value={this.state.amount} onChange={this.handleChange} required />
+        );
     }
 }

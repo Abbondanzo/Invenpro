@@ -34,7 +34,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
             receipt: '',
             date: moment(),
             id: '', // Identifying UUID (name is not an ID)
-            price: 2.0,
+            price: 0,
             upc: null,
             users: [] // A list of UUID who pay for that item. Can include owner
         };
