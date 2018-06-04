@@ -43,14 +43,14 @@ export class AddUserPage extends React.Component<IProps, { newUser: User }> {
                 </div>
                 <div>
                     <div className="form-row">
-                        <label htmlFor="username">Name</label>
                         <input
                             name="username"
                             type="text"
-                            placeholder="Name"
                             value={this.state.newUser.name}
                             onChange={this.handleChange}
+                            required
                         />
+                        <label htmlFor="username">Name</label>
                     </div>
                     <button onClick={this.addUser} data-tclass="btn">
                         Save

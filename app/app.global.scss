@@ -34,24 +34,37 @@ dir {
 }
 
 .form-row {
+	margin: 20px 0 30px;
+	position: relative;
+	font-size: 16px;
 	label {
+		pointer-events: none;
+		position: absolute;
+		top: -16px;
+		bottom: 0;
+		left: 0;
+		font-size: 12px;
 		width: 100%;
+		transition: 0.2s;
+		color: $secondaryColor;
 	}
 	input {
+		&:not(:focus):not(:valid) {
+			&~label {
+				top: 0;
+				font-size: 16px;
+			}
+		}
 		color: $primaryTextColor;
 		width: 100%;
 		border: none;
 		outline: none;
-		padding: 0.8em;
-		background: #f2f2f2;
+		box-shadow: 0 1px 0 #e6e6e6;
+		padding: 6px 0;
 		&:focus {
-			background: #e6e6e6;
-		}
-		&::-webkit-input-placeholder {
-			color: rgba(104, 104, 104, 0.25);
+			box-shadow: 0 2px 0 #9d9d9d;
 		}
 	}
-	padding-bottom: 1em;
 }
 
 table {

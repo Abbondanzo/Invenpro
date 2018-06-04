@@ -88,7 +88,6 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
                         ) => {
                             return (
                                 <div className="form-row" key={index}>
-                                    <label htmlFor={item.stateItemKey}>{item.desc}</label>
                                     <input
                                         type="text"
                                         name={item.stateItemKey}
@@ -96,6 +95,7 @@ export class FirebasePage extends React.Component<IProps, { config: FirebaseConf
                                         placeholder={item.example}
                                         value={(this.state.config as any)[item.stateItemKey]}
                                     />
+                                    <label htmlFor={item.stateItemKey}>{item.desc}</label>
                                 </div>
                             );
                         }

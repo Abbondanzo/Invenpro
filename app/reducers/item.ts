@@ -5,6 +5,7 @@ import { Moment } from 'moment';
 export type Item = {
     name: string;
     owner: string; // User UUID
+    receipt: string; // Receipt UUID (for batch adds)
     id: string; // Identifying UUID (name is not an ID)
     date: Moment; // MM/DD/YYYY
     price: number; // Floating point

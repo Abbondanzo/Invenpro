@@ -49,14 +49,14 @@ export class EditUserPage extends React.Component<IProps, { user: User }> {
                 </button>
                 <div>
                     <div className="form-row">
-                        <label htmlFor="username">Name</label>
                         <input
                             name="username"
                             type="text"
-                            placeholder="Name"
                             value={this.state.user.name}
                             onChange={this.handleChange}
+                            required
                         />
+                        <label htmlFor="username">Name</label>
                     </div>
                     <button onClick={this.saveUser} data-tclass="btn">
                         Edit
