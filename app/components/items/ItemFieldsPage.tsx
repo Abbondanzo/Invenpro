@@ -9,6 +9,7 @@ import { UserMap } from 'reducers/user';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import './ItemFieldsPage.scss';
 import { PriceNumberPage } from '../utils/PriceNumberPage';
+import UserSelection from 'containers/utils/UserSelection';
 
 export interface IProps extends RouteComponentProps<any> {
     currentItem: Item | null;
@@ -50,6 +51,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         this.handleChange = this.handleChange.bind(this);
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.handleUsersChange = this.handleUsersChange.bind(this);
     }
 
     handleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -83,37 +85,52 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         }
     }
 
+    handleUsersChange(users: Array<string>) {
+        this.setState({
+            currentItem: Object.assign(this.state.currentItem, {
+                users: users
+            })
+        });
+    }
+
     render() {
         return (
-            <div>
-                <div className="form-row">
-                    <input
-                        name="name"
-                        id="name"
-                        type="text"
-                        value={this.state.currentItem.name}
-                        onChange={this.handleChange}
-                        required
-                    />
-                    <label htmlFor="name">Name</label>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6 form-row">
+                        <input
+                            name="name"
+                            id="name"
+                            type="text"
+                            value={this.state.currentItem.name}
+                            onChange={this.handleChange}
+                            required
+                        />
+                        <label htmlFor="name">Name</label>
+                    </div>
+                    <div className="col-md-3 form-row">
+                        <DatePicker
+                            todayButton={'Today'}
+                            placeholderText="Set a date for when this transaction occurred"
+                            selected={this.state.currentItem.date}
+                            maxDate={moment()}
+                            onChange={this.handleDateChange}
+                            className="col-12"
+                        />
+                        <label htmlFor="itemDate">Date</label>
+                    </div>
+                    <div className="col-md-3 form-row">
+                        <PriceNumberPage
+                            selected={this.state.currentItem.price}
+                            onChange={this.handlePriceChange}
+                        />
+                        <label htmlFor="price">Price</label>
+                    </div>
                 </div>
-                <div className="form-row">
-                    <DatePicker
-                        todayButton={'Today'}
-                        placeholderText="Set a date for when this transaction occurred"
-                        selected={this.state.currentItem.date}
-                        maxDate={moment()}
-                        onChange={this.handleDateChange}
-                    />
-                    <label htmlFor="itemDate">Date</label>
-                </div>
-                <div className="form-row">
-                    <PriceNumberPage
-                        selected={this.state.currentItem.price}
-                        onChange={this.handlePriceChange}
-                    />
-                    <label htmlFor="price">Price</label>
-                </div>
+                <UserSelection
+                    selected={this.state.currentItem.users}
+                    handleChange={this.handleUsersChange}
+                />
                 Test
                 {this.state.isBatch ? <div>BATCH</div> : <div>Not batch</div>}
                 Date: {this.state.currentItem.date.format('MM/DD/YYYY')}

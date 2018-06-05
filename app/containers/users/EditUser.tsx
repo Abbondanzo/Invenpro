@@ -7,8 +7,11 @@ import { IAction } from 'actions/helpers';
 import { IState } from 'reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
+    let currentUser = state.user.currentUser
+        ? state.user.userMap[state.user.currentUser]
+        : undefined;
     return {
-        user: state.user.currentUser
+        user: currentUser
     };
 }
 

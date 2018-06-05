@@ -15,7 +15,7 @@ export type UserMap = { [key: string]: User };
 
 export type UserState = {
     userMap: UserMap;
-    currentUser: User | undefined;
+    currentUser: string | undefined; // UUID of the current user
 };
 
 /**
@@ -131,7 +131,7 @@ function addUserState(oldState: UserState, newUser: User): UserState {
  * @param selectedUser user id to select
  */
 function selectUser(oldState: UserState, selectedUser: string): UserState {
-    return Object.assign({}, oldState, { currentUser: oldState.userMap[selectedUser] });
+    return Object.assign({}, oldState, { currentUser: selectedUser });
 }
 
 /**

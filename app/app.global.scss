@@ -1,4 +1,6 @@
 @import "./app.fonts";
+@import "./app.bootstrap";
+@import "~bootstrap/scss/bootstrap";
 $primaryColor: #31475A;
 $secondaryColor: #607A99;
 $primaryTextColor: #686868;
@@ -37,12 +39,14 @@ dir {
 	margin: 20px 0 30px;
 	position: relative;
 	font-size: 16px;
+	&>div {
+		width: 100%;
+	}
 	label {
 		pointer-events: none;
 		position: absolute;
 		top: -16px;
 		bottom: 0;
-		left: 0;
 		font-size: 12px;
 		width: 100%;
 		transition: 0.2s;
