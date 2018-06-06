@@ -1,0 +1,49 @@
+:local {
+	.container {
+		ul {
+			list-style: none;
+		}
+		position: relative;
+		.input {
+			display: flex;
+			.user-input {
+				flex: 1;
+			}
+			input,
+			input:focus,
+			input:valid {
+				box-shadow: none;
+				padding: 0;
+			}
+			li {
+				display: inline-block;
+				padding: 6px;
+				margin: 2px;
+				&:not(.input-container) {
+					padding-right: 0;
+					background: bisque;
+					span {
+						border-left: 1px solid rgba(0, 0, 0, 0.1);
+						cursor: pointer;
+						padding: 6px;
+						margin-left: 6px;
+					}
+				}
+			}
+		}
+		.suggestions-container {
+			background: #fff;
+			position: absolute;
+			top: 100%;
+			border: 1px solid gray;
+			border-radius: 6px;
+			width: 100%;
+			li {
+				padding: 10px;
+				&:not(:last-child) {
+					border-bottom: 1px solid gray;
+				}
+			}
+		}
+	}
+}

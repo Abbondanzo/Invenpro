@@ -5,11 +5,11 @@ import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
 import { Item } from 'reducers/item';
 import { UserMap } from 'reducers/user';
+import { PriceNumberPage } from 'components/utils/PriceNumberPage';
+import UserSelection from 'containers/utils/UserSelection';
 
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import './ItemFieldsPage.scss';
-import { PriceNumberPage } from '../utils/PriceNumberPage';
-import UserSelection from 'containers/utils/UserSelection';
 
 export interface IProps extends RouteComponentProps<any> {
     currentItem: Item | null;

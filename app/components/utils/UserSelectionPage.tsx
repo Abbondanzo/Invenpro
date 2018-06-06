@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { User } from 'reducers/user';
 
+let styles = require('./UserSelectionPage.scss');
+
 export interface IProps {
     selected: Array<User | string>; // Array of user UUIDs or generic names
     getSuggestionsForInput(input: string): Array<User>; // Generates a list of "suggestions" of users matching the given input
@@ -36,9 +38,27 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
             value = value.slice(0, value.length - 1);
             this.handleSaveUser(value);
         }
+        this.produceSuggestions(value);
+    }
+
+    produceSuggestions(inputValue: string) {
+        let suggestedUsers = this.props.getSuggestionsForInput(inputValue);
+        this.setState(
+            {
+                input: inputValue
+            },
+            () => {
+                this.updateSuggestedUsers(suggestedUsers);
+            }
+        );
+    }
+
+    updateSuggestedUsers(suggestedUsers: Array<User>) {
+        suggestedUsers = suggestedUsers.filter((user: User) => {
+            return this.state.selectedUsers.indexOf(user) === -1;
+        });
         this.setState({
-            input: value,
-            suggestions: this.props.getSuggestionsForInput(value)
+            suggestions: suggestedUsers
         });
     }
 
@@ -51,6 +71,31 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
         } else if (event.keyCode === 13) {
             // Enter key
             this.handleSaveUser(event.currentTarget.value);
+        } else if (event.keyCode === 8) {
+            // Backspace key
+            // If there is no input, remove the last user and replace the input with their name
+            if (this.state.input === '') {
+                let lastUser: User | string = this.state.selectedUsers[
+                    this.state.selectedUsers.length - 1
+                ];
+                // Don't try to erase undefined users
+                if (!lastUser) {
+                    return;
+                }
+                let newInput = typeof lastUser === 'string' ? lastUser : lastUser.name;
+                this.setState(
+                    {
+                        input: newInput + ' ',
+                        selectedUsers: this.state.selectedUsers.slice(
+                            0,
+                            this.state.selectedUsers.length - 1
+                        )
+                    },
+                    () => {
+                        this.produceSuggestions(newInput);
+                    }
+                );
+            }
         }
     }
 
@@ -60,14 +105,36 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
                 ? this.state.suggestions[0]
                 : user.trim();
         let newSelectedUsers = this.state.selectedUsers;
-        if (user && !newSelectedUsers.includes(userToSave)) {
+        if ((user || userToSave) && !newSelectedUsers.includes(userToSave)) {
             newSelectedUsers.push(userToSave);
-            console.log(newSelectedUsers);
+            this.setState(
+                {
+                    input: '',
+                    selectedUsers: newSelectedUsers
+                },
+                () => {
+                    this.handleChange();
+                    this.updateSuggestedUsers(this.state.suggestions);
+                }
+            );
+        }
+    }
+
+    handleRemoveUser(user: string | User) {
+        if (user) {
+            let newSelectedUsers = this.state.selectedUsers;
+            let index = newSelectedUsers.indexOf(user, 0);
+            if (index > -1) {
+                newSelectedUsers.splice(index, 1);
+            }
             this.setState(
                 {
                     selectedUsers: newSelectedUsers
                 },
-                this.handleChange
+                () => {
+                    this.handleChange();
+                    this.updateSuggestedUsers(this.state.suggestions);
+                }
             );
         }
     }
@@ -82,23 +149,41 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div className="form-row">
-                <ul>
-                    {this.state.selectedUsers.map((user: User | string, index: number) => {
-                        return <li key={index}>{typeof user === 'string' ? user : user.name}</li>;
-                    })}
-                </ul>
-                <input
-                    type="text"
-                    placeholder={this.state.selectedUsers.length > 0 ? '' : "Type a user's name"}
-                    name="userSelectionPage"
-                    value={this.state.input}
-                    onChange={this.onInputChange}
-                    onKeyDown={this.onKeyPressed}
-                />
+            <div className={['form-row', styles.container].join(' ')}>
+                <div className={['input', styles['input']].join(' ')}>
+                    <ul className={styles['user-names']}>
+                        {this.state.selectedUsers.map((user: User | string, index: number) => {
+                            return (
+                                <li key={index}>
+                                    {typeof user === 'string' ? user : user.name}
+                                    <span
+                                        onClick={() => {
+                                            this.handleRemoveUser(user);
+                                        }}
+                                    >
+                                        &times;
+                                    </span>
+                                </li>
+                            );
+                        })}
+                        <li className={styles['input-container']}>
+                            <input
+                                type="text"
+                                placeholder={
+                                    this.state.selectedUsers.length > 0 ? '' : "Type a user's name"
+                                }
+                                name="userSelectionPage"
+                                value={this.state.input}
+                                onChange={this.onInputChange}
+                                onKeyDown={this.onKeyPressed}
+                                className={styles['user-input']}
+                            />
+                        </li>
+                    </ul>
+                </div>
                 <label htmlFor="userSelectionPage">Users</label>
                 {this.state.suggestions.length ? (
-                    <ul>
+                    <ul className={styles['suggestions-container']}>
                         {this.state.suggestions.map((user: User, index: number) => {
                             return <li key={index}>{user.name}</li>;
                         })}

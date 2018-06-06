@@ -52,7 +52,8 @@ dir {
 		transition: 0.2s;
 		color: $secondaryColor;
 	}
-	input {
+	input,
+	.input {
 		&:not(:focus):not(:valid) {
 			&~label {
 				top: 0;
