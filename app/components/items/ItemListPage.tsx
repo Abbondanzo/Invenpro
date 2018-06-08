@@ -1,37 +1,60 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-
-import { ItemMap } from 'reducers/item';
+import * as moment from 'moment';
+import { Item, ItemMap } from 'reducers/item';
 
 export interface IProps extends RouteComponentProps<any> {
     itemMap: ItemMap;
+    selectItem(itemId: string): any;
 }
 
 export class ItemListPage extends React.Component<IProps> {
+    sortItemsByDate(items: Array<Item>): Array<Item> {
+        return items.sort((a: Item, b: Item) => {
+            let momentA = moment(a.date);
+            let momentB = moment(b.date);
+            if (momentA.isBefore(momentB)) return -1;
+            if (momentB.isBefore(momentA)) return 1;
+            return 0;
+        });
+    }
+
     render() {
         return (
             <div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Item</th>
+                            <th>Date</th>
+                            <th>Name</th>
                             <th>Price</th>
+                            <th>Paid</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {Object.keys(this.props.itemMap).map((itemKey: string) => {
-                            let item = this.props.itemMap[itemKey];
-                            if (item) {
+                        {this.sortItemsByDate(Object.values(this.props.itemMap)).map(
+                            (item: Item) => {
                                 return (
-                                    <tr>
-                                        <th>{item.id}</th>
+                                    <tr key={item.id}>
+                                        <th>{moment(item.date).format('MMM DD')}</th>
+                                        <th>{item.name}</th>
                                         <th>{item.price}</th>
+                                        <th>{item.owner}</th>
+                                        <th>
+                                            <button
+                                                onClick={() => {
+                                                    this.props.selectItem(item.id);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                        </th>
                                     </tr>
                                 );
                             }
-                            return undefined;
-                        })}
+                        )}
                     </tbody>
                 </table>
                 <div data-tid="addButton">

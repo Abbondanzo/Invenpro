@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
-import { Item } from 'reducers/item';
+import { Item, DATE_FORMAT } from 'reducers/item';
 import { UserMap } from 'reducers/user';
 import { PriceNumberPage } from 'components/utils/PriceNumberPage';
 import UserSelection from 'containers/utils/UserSelection';
@@ -15,6 +15,9 @@ export interface IProps extends RouteComponentProps<any> {
     currentItem: Item | null;
     isBatchAdd: boolean;
     userMap: UserMap;
+    addItem(item: Item): any;
+    editItem(id: string | null, item: Item): any;
+    unselectItem(): any;
 }
 
 interface IState {
@@ -33,7 +36,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
             name: '',
             owner: '', // User UUID
             receipt: '',
-            date: moment(),
+            date: moment().format(DATE_FORMAT),
             id: '', // Identifying UUID (name is not an ID)
             price: 0,
             upc: null,
@@ -52,6 +55,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleUsersChange = this.handleUsersChange.bind(this);
+        this.saveItem = this.saveItem.bind(this);
     }
 
     handleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -67,6 +71,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
     }
 
     handlePriceChange(amount: number) {
+        console.log(amount);
         let currentItem = Object.assign(this.state.currentItem, {
             price: amount
         });
@@ -79,7 +84,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         if (date) {
             this.setState({
                 currentItem: Object.assign(this.state.currentItem, {
-                    date: date
+                    date: date.format(DATE_FORMAT)
                 })
             });
         }
@@ -91,6 +96,18 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
                 users: users
             })
         });
+    }
+
+    saveItem() {
+        if (this.state.isEditing) {
+            let id = this.props.currentItem ? this.props.currentItem.id : this.state.currentItem.id;
+            this.props.editItem(id, this.state.currentItem);
+        } else {
+            this.props.addItem(this.state.currentItem);
+            this.setState({
+                isEditing: true
+            });
+        }
     }
 
     render() {
@@ -112,7 +129,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
                         <DatePicker
                             todayButton={'Today'}
                             placeholderText="Set a date for when this transaction occurred"
-                            selected={this.state.currentItem.date}
+                            selected={moment(this.state.currentItem.date)}
                             maxDate={moment()}
                             onChange={this.handleDateChange}
                             className="col-12"
@@ -131,11 +148,18 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
                     selected={this.state.currentItem.users}
                     handleChange={this.handleUsersChange}
                 />
-                Test
-                {this.state.isBatch ? <div>BATCH</div> : <div>Not batch</div>}
-                Date: {this.state.currentItem.date.format('MM/DD/YYYY')}
+                <button onClick={this.saveItem} data-tclass="btn">
+                    {this.state.isEditing ? 'Save' : 'Add'}
+                </button>
                 <div data-tid="addButton">
-                    <Link to="/items">Back</Link>
+                    <Link
+                        to="/items"
+                        onClick={() => {
+                            this.props.unselectItem();
+                        }}
+                    >
+                        Back
+                    </Link>
                 </div>
             </div>
         );

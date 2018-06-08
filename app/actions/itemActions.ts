@@ -4,6 +4,8 @@ import { Item, ItemState } from 'reducers/item';
 export const Types = {
     addItem: 'ADD_ITEM',
     editItem: 'EDIT_ITEM',
+    selectItem: 'SELECT_ITEM',
+    unselectItem: 'UNSELECT_ITEM',
     deleteItem: 'DELETE_ITEM',
     addUser: 'ADD_USER_TO_ITEM',
     deleteUser: 'DELETE_USER_FROM_ITEM',
@@ -42,11 +44,25 @@ export function addItem(item: Item): IItemActionWithPayload<Item> {
     };
 }
 
-export function editItem(id: string, item: Item): IItemActionWithPayload<Item> {
+export function editItem(id: string | null, item: Item): IItemActionWithPayload<Item> {
     return {
         type: Types.editItem,
         item: id,
         payload: item
+    };
+}
+
+export function selectItem(id: string): IItemAction {
+    return {
+        type: Types.selectItem,
+        item: id
+    };
+}
+
+export function unselectItem(): IItemAction {
+    return {
+        type: Types.unselectItem,
+        item: null
     };
 }
 

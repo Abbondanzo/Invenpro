@@ -20,6 +20,7 @@ export class PriceNumberPage extends React.Component<PriceNumberPageProps, IStat
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     handleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -50,15 +51,43 @@ export class PriceNumberPage extends React.Component<PriceNumberPageProps, IStat
             }
         }
         if (+value < MAX_ITEM_VALUE && value !== this.state.amount) {
-            this.setState({
-                amount: value
-            });
+            this.setState(
+                {
+                    amount: value
+                },
+                () => {
+                    this.props.onChange(+value);
+                }
+            );
+        }
+    }
+
+    onClick() {
+        let amount = this.state.amount;
+        if (+amount === 0) {
+            // Forces the cursor to the end of the input
+            this.setState(
+                {
+                    amount: ''
+                },
+                () => {
+                    this.setState({
+                        amount: amount
+                    });
+                }
+            );
         }
     }
 
     render() {
         return (
-            <input type="text" value={this.state.amount} onChange={this.handleChange} required />
+            <input
+                type="text"
+                value={this.state.amount}
+                onChange={this.handleChange}
+                onClick={this.onClick}
+                required
+            />
         );
     }
 }

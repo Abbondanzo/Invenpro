@@ -1,13 +1,14 @@
 import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from 'actions/itemActions';
 import guid from 'utils/uuid';
-import { Moment } from 'moment';
+
+export const DATE_FORMAT = 'MM/DD/YYYY';
 
 export type Item = {
     name: string;
     owner: string; // User UUID
     receipt: string; // Receipt UUID (for batch adds)
     id: string; // Identifying UUID (name is not an ID)
-    date: Moment; // MM/DD/YYYY
+    date: string; // MM/DD/YYYY
     price: number; // Floating point
     upc: number | null;
     users: Array<string>; // A list of UUID who pay for that item. Can include owner
@@ -40,13 +41,19 @@ export default function item(state: ItemState = initialState, action: IItemActio
         return itemWithPayload(state, action as IItemActionWithPayload<any>);
     }
 
+    let map = state.itemMap;
     switch (action.type) {
         case ItemActionTypes.deleteItem:
-            let map = state.itemMap;
             if (action.item) {
                 delete map[action.item];
             }
             return Object.assign({}, state, { itemMap: map });
+        case ItemActionTypes.selectItem:
+            if (action.item) {
+                return Object.assign({}, state, { currentItem: map[action.item] });
+            }
+        case ItemActionTypes.unselectItem:
+            return Object.assign({}, state, { currentItem: null });
         default:
             return state;
     }
@@ -65,7 +72,7 @@ function isActionWithPayload(object: any): Boolean {
  * @param object action to test
  */
 function isItem(object: any): object is Item {
-    return (<Item>object).owner !== undefined;
+    return <Item>object !== undefined && (<Item>object).owner !== undefined;
 }
 
 /**

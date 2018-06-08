@@ -8,9 +8,12 @@ import { IState } from 'reducers';
 import { User, UserMap } from 'reducers/user';
 
 function replaceUUIDWithUser(userMap: UserMap, selectedUsers: Array<any>): Array<User | string> {
-    return selectedUsers.map((name: any) => {
-        return (userMap[name] ? userMap[name] : name) as User | string;
-    });
+    if (selectedUsers) {
+        return selectedUsers.map((name: any) => {
+            return (userMap[name] ? userMap[name] : name) as User | string;
+        });
+    }
+    return [];
 }
 
 function mapStateToProps(state: IState, ownProps: IProps): Partial<IProps> {
@@ -39,6 +42,7 @@ function getSuggestionsForInput(state: IState, input: string): Array<User> {
     return [];
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(
-    UserSelectionPage
-) as any) as React.StatelessComponent<any>;
+export default (connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserSelectionPage) as any) as React.StatelessComponent<any>;

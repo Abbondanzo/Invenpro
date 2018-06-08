@@ -38,6 +38,13 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
         this.toggleInputClass = this.toggleInputClass.bind(this);
     }
 
+    componentDidMount() {
+        this.toggleInputClass(
+            'small-label',
+            this.state.input.length > 0 || this.state.selectedUsers.length > 0
+        );
+    }
+
     mapNameToUser(name: string) {}
 
     onInputChange(event: React.FormEvent<HTMLInputElement>) {
