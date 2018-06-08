@@ -15,7 +15,6 @@ export class PriceNumberPage extends React.Component<PriceNumberPageProps, IStat
     constructor(props: PriceNumberPageProps) {
         super(props);
 
-        console.log(this.props.selected);
         this.state = {
             amount: this.props.selected ? String(this.props.selected.toFixed(2)) : '0.00'
         };

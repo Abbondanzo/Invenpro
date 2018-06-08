@@ -54,7 +54,10 @@ dir {
 	}
 	input,
 	.input {
-		&:not(:focus):not(:valid) {
+		&:not(:focus):not(:valid):not(.open):not(.small-label) {
+			::-webkit-input-placeholder {
+				color: transparent;
+			}
 			&~label {
 				top: 0;
 				font-size: 16px;
@@ -66,7 +69,8 @@ dir {
 		outline: none;
 		box-shadow: 0 1px 0 #e6e6e6;
 		padding: 6px 0;
-		&:focus {
+		&:focus,
+		&.open {
 			box-shadow: 0 2px 0 #9d9d9d;
 		}
 	}

@@ -11,21 +11,31 @@ export interface IProps {
 
 interface IState {
     input: string;
+    inputClasses: Array<string>;
     selectedUsers: Array<User | string>;
     suggestions: Array<User>;
 }
 
 export class UserSelectionPage extends React.Component<IProps, IState> {
+    private userInput: React.RefObject<HTMLInputElement>;
     constructor(props: IProps) {
         super(props);
         this.state = {
             input: '',
+            inputClasses: ['input', styles['input']],
             selectedUsers: this.props.selected,
             suggestions: []
         };
+
+        this.userInput = React.createRef();
+
         this.onInputChange = this.onInputChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onKeyPressed = this.onKeyPressed.bind(this);
+        this.onFocus = this.onFocus.bind(this);
+        this.onBlur = this.onBlur.bind(this);
+        this.focusOnInput = this.focusOnInput.bind(this);
+        this.toggleInputClass = this.toggleInputClass.bind(this);
     }
 
     mapNameToUser(name: string) {}
@@ -39,6 +49,10 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
             this.handleSaveUser(value);
         }
         this.produceSuggestions(value);
+        this.toggleInputClass(
+            'small-label',
+            value.length > 0 || this.state.selectedUsers.length > 0
+        );
     }
 
     produceSuggestions(inputValue: string) {
@@ -59,6 +73,33 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
         });
         this.setState({
             suggestions: suggestedUsers
+        });
+    }
+
+    onBlur() {
+        this.toggleInputClass('open', false);
+    }
+
+    onFocus() {
+        this.toggleInputClass('open', true);
+    }
+
+    focusOnInput() {
+        if (this.userInput.current) {
+            this.userInput.current.focus();
+        }
+    }
+
+    toggleInputClass(className: string, shouldAdd: Boolean) {
+        let newClassNames = this.state.inputClasses;
+        newClassNames = newClassNames.filter((existingClassName: string) => {
+            return existingClassName !== className;
+        });
+        if (shouldAdd) {
+            newClassNames.push(className);
+        }
+        this.setState({
+            inputClasses: newClassNames
         });
     }
 
@@ -140,6 +181,10 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
     }
 
     handleChange() {
+        this.toggleInputClass(
+            'small-label',
+            this.state.input.length > 0 || this.state.selectedUsers.length > 0
+        );
         this.props.handleChange(
             this.state.selectedUsers.map((user: User | string) => {
                 return typeof user === 'string' ? user : user.id;
@@ -150,7 +195,7 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
     render() {
         return (
             <div className={['form-row', styles.container].join(' ')}>
-                <div className={['input', styles['input']].join(' ')}>
+                <div onClick={this.focusOnInput} className={this.state.inputClasses.join(' ')}>
                     <ul className={styles['user-names']}>
                         {this.state.selectedUsers.map((user: User | string, index: number) => {
                             return (
@@ -173,9 +218,12 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
                                     this.state.selectedUsers.length > 0 ? '' : "Type a user's name"
                                 }
                                 name="userSelectionPage"
+                                ref={this.userInput}
                                 value={this.state.input}
                                 onChange={this.onInputChange}
                                 onKeyDown={this.onKeyPressed}
+                                onFocus={this.onFocus}
+                                onBlur={this.onBlur}
                                 className={styles['user-input']}
                             />
                         </li>
