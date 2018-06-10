@@ -14,7 +14,7 @@ export interface IProps {
 interface IState {
     selected: User | null;
     possibleUsers: Array<User>;
-    isOpen: Boolean;
+    isOpen: boolean;
 }
 
 function mapUserIdToUser(userId: string, users: Array<User>): User | null {
@@ -33,6 +33,17 @@ export class UserDropdownPage extends React.Component<IProps, IState> {
             possibleUsers: this.props.possibleUsers,
             isOpen: false
         };
+        this.handleSelected = this.handleSelected.bind(this);
+    }
+
+    handleSelected(user: User) {
+        this.setState(
+            {
+                selected: user,
+                isOpen: false
+            },
+            this.props.handleChange(user)
+        );
     }
 
     handleClickOutside() {
@@ -44,23 +55,36 @@ export class UserDropdownPage extends React.Component<IProps, IState> {
     render() {
         return (
             <div
-                className={this.state.isOpen ? styles['is-open'] : undefined}
-                onClick={() => {
-                    this.setState({ isOpen: true });
-                }}
+                className={['form-row', this.state.isOpen ? styles['is-open'] : undefined].join(
+                    ' '
+                )}
             >
-                <span>{this.state.selected ? this.state.selected.name : 'Select who paid'}</span>
+                <span
+                    onClick={() => {
+                        this.setState({ isOpen: true });
+                    }}
+                    className={['input', this.state.isOpen ? 'open' : undefined].join(' ')}
+                >
+                    {this.state.selected ? this.state.selected.name : 'Select who paid'}
+                </span>
                 {this.state.selected ? (
-                    <input type="hidden" value={this.state.selected.id}>
-                        {this.state.selected.name}
-                    </input>
+                    <input type="hidden" value={this.state.selected.id} />
                 ) : (
                     undefined
                 )}
-                <div className={styles['options-container']}>
+                <div
+                    className={[
+                        'floating-container',
+                        this.state.isOpen ? styles['open-container'] : styles['closed-container']
+                    ].join(' ')}
+                >
                     <ul>
                         {this.state.possibleUsers.map((user: User) => {
-                            return <li key={user.id}>{user.name}</li>;
+                            return (
+                                <li key={user.id} onClick={() => this.handleSelected(user)}>
+                                    {user.name}
+                                </li>
+                            );
                         })}
                     </ul>
                 </div>

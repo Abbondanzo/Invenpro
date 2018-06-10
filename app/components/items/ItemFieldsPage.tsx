@@ -53,6 +53,7 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleOwnerChange = this.handleOwnerChange.bind(this);
         this.handlePriceChange = this.handlePriceChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleUsersChange = this.handleUsersChange.bind(this);
@@ -72,7 +73,12 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
     }
 
     handleOwnerChange(user: User) {
-        console.log(user);
+        let currentItem = Object.assign(this.state.currentItem, {
+            owner: user.id
+        });
+        this.setState({
+            currentItem: currentItem
+        });
     }
 
     handlePriceChange(amount: number) {
@@ -149,16 +155,23 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
                         <label htmlFor="price">Price</label>
                     </div>
                 </div>
-                <UserSelection
-                    selected={this.state.currentItem.users}
-                    handleChange={this.handleUsersChange}
-                />
-                <UserDropdown
-                    selected={this.state.currentItem.owner}
-                    possibleUsers={Object.values(this.props.userMap)}
-                    handleChange={this.handleOwnerChange}
-                    enableOnClickOutside={true}
-                />
+                <div className="row">
+                    <div className="col-md-6 form-row">
+                        <UserSelection
+                            selected={this.state.currentItem.users}
+                            handleChange={this.handleUsersChange}
+                        />
+                    </div>
+                    <div className="col-md-6 form-row">
+                        <UserDropdown
+                            selected={this.state.currentItem.owner}
+                            possibleUsers={Object.values(this.props.userMap)}
+                            handleChange={this.handleOwnerChange}
+                            enableOnClickOutside={true}
+                        />
+                        <label htmlFor="price">Owner</label>
+                    </div>
+                </div>
                 <button onClick={this.saveItem} data-tclass="btn">
                     {this.state.isEditing ? 'Save' : 'Add'}
                 </button>

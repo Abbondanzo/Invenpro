@@ -1,3 +1,4 @@
+@import "app/app.constants";
 :local {
 	.container {
 		ul {
@@ -5,6 +6,7 @@
 		}
 		position: relative;
 		.input {
+			z-index: 11;
 			cursor: text;
 			padding: 0;
 			display: flex;
@@ -33,18 +35,7 @@
 			}
 		}
 		.suggestions-container {
-			background: #fff;
-			position: absolute;
-			top: 100%;
-			border: 1px solid gray;
-			border-radius: 6px;
-			width: 100%;
-			li {
-				padding: 10px;
-				&:not(:last-child) {
-					border-bottom: 1px solid gray;
-				}
-			}
+			display: block;
 		}
 	}
 }

@@ -3,10 +3,12 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import { Item, ItemMap } from 'reducers/item';
+import { User } from 'reducers/user';
 
 export interface IProps extends RouteComponentProps<any> {
     itemMap: ItemMap;
     selectItem(itemId: string): any;
+    getUserFromId(userId: string): User;
 }
 
 export class ItemListPage extends React.Component<IProps> {
@@ -41,7 +43,7 @@ export class ItemListPage extends React.Component<IProps> {
                                         <th>{moment(item.date).format('MMM DD')}</th>
                                         <th>{item.name}</th>
                                         <th>{item.price}</th>
-                                        <th>{item.owner}</th>
+                                        <th>{this.props.getUserFromId(item.owner).name}</th>
                                         <th>
                                             <button
                                                 onClick={() => {

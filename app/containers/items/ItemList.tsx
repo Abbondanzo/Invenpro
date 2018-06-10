@@ -6,11 +6,13 @@ import { IAction } from 'actions/helpers';
 import * as ItemActions from 'actions/itemActions';
 import { ItemListPage, IProps } from 'components/items/ItemListPage';
 import { IState } from 'reducers';
+import { User } from 'reducers/user';
 import ItemFields from 'containers/items/ItemFields';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
-        itemMap: state.item.itemMap
+        itemMap: state.item.itemMap,
+        getUserFromId: getUserFromId.bind(null, state)
     };
 }
 
@@ -18,9 +20,25 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
     return bindActionCreators(ItemActions as any, dispatch);
 }
 
-const itemComponent = (connect(mapStateToProps, mapDispatchToProps)(
-    ItemListPage
-) as any) as React.StatelessComponent<IProps>;
+function getUserFromId(state: IState, userId: string): User {
+    let returnValue: User = {
+        id: userId,
+        name: userId
+    };
+    if (state && state.user && state.user.userMap && userId) {
+        Object.values(state.user.userMap).map((user: User) => {
+            if (user.id === userId) {
+                returnValue = user;
+            }
+        });
+    }
+    return returnValue;
+}
+
+const itemComponent = (connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ItemListPage) as any) as React.StatelessComponent<IProps>;
 
 export default (): any => (
     <div>

@@ -202,7 +202,11 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
     render() {
         return (
             <div className={['form-row', styles.container].join(' ')}>
-                <div onClick={this.focusOnInput} className={this.state.inputClasses.join(' ')}>
+                <div
+                    onClick={this.focusOnInput}
+                    onMouseDown={this.focusOnInput}
+                    className={this.state.inputClasses.join(' ')}
+                >
                     <ul className={styles['user-names']}>
                         {this.state.selectedUsers.map((user: User | string, index: number) => {
                             return (
@@ -238,9 +242,18 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
                 </div>
                 <label htmlFor="userSelectionPage">Users</label>
                 {this.state.suggestions.length ? (
-                    <ul className={styles['suggestions-container']}>
+                    <ul className={'floating-container ' + styles['suggestions-container']}>
                         {this.state.suggestions.map((user: User, index: number) => {
-                            return <li key={index}>{user.name}</li>;
+                            return (
+                                <li
+                                    key={index}
+                                    onClick={() => {
+                                        this.handleSaveUser('');
+                                    }}
+                                >
+                                    {user.name}
+                                </li>
+                            );
                         })}
                     </ul>
                 ) : (
