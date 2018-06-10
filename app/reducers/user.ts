@@ -37,6 +37,8 @@ export default function user(state: UserState = initialState, action: IUserActio
     switch (action.type) {
         case UserActionTypes.selectUser:
             return selectUser(state, action.user);
+        case UserActionTypes.unselectUser:
+            return Object.assign({}, state, { currentUser: undefined });
         default:
             return state;
     }

@@ -7,8 +7,8 @@ let styles = require('./UserList.scss');
 
 export interface IProps extends RouteComponentProps<any> {
     userMap: UserMap;
-    editUser(user: User): void;
     selectUser(userId: string): void;
+    unselectUser(): void;
 }
 
 export class UserListPage extends React.Component<IProps> {
@@ -55,7 +55,9 @@ export class UserListPage extends React.Component<IProps> {
                     </tbody>
                 </table>
                 <div data-tid="addButton">
-                    <Link to="/users/add-user">Add user</Link>
+                    <Link to="/users/user" onClick={this.props.unselectUser}>
+                        Add user
+                    </Link>
                 </div>
             </div>
         );

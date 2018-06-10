@@ -1,11 +1,10 @@
 import { Action } from 'redux';
 import { User, UserState } from 'reducers/user';
 
-const { history } = require('store/configureStore');
-
 export const Types = {
     addUser: 'ADD_USER',
     selectUser: 'SELECT_USER',
+    unselectUser: 'UNSELECT_USER',
     updateName: 'UPDATE_NAME',
     editUser: 'EDIT_USER',
     firebaseUser: 'FIREBASE_USER_UPDATE'
@@ -35,10 +34,18 @@ export function addUser(user: User): IUserActionWithPayload<User> {
 }
 
 export function selectUser(userId: string): IUserAction {
-    history.push('/users/edit-user');
+    let { history } = require('store/store');
+    history.push('/users/user');
     return {
         type: Types.selectUser,
         user: userId
+    };
+}
+
+export function unselectUser(): IUserAction {
+    return {
+        type: Types.selectUser,
+        user: ''
     };
 }
 

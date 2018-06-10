@@ -60,6 +60,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         this.saveItem = this.saveItem.bind(this);
     }
 
+    /**
+     * Writes object property key based on the name of the given input element.
+     * @param event input form element
+     */
     handleChange(event: React.FormEvent<HTMLInputElement>) {
         event.preventDefault();
         let name = event.currentTarget.name;
@@ -72,6 +76,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * Sets the "owner" of the current item by their UUID.
+     * @param user user to grab an ID from
+     */
     handleOwnerChange(user: User) {
         let currentItem = Object.assign(this.state.currentItem, {
             owner: user.id
@@ -81,6 +89,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * Sets the number price of the current item.
+     * @param amount new price to set
+     */
     handlePriceChange(amount: number) {
         console.log(amount);
         let currentItem = Object.assign(this.state.currentItem, {
@@ -91,6 +103,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * Sets the formatted string date as the current date. Converts moment to MM/DD/YYYY format
+     * @param date moment date object
+     */
     handleDateChange(date: moment.Moment | null) {
         if (date) {
             this.setState({
@@ -101,6 +117,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         }
     }
 
+    /**
+     * Sets a list of users of the current item.
+     * @param users new list of users
+     */
     handleUsersChange(users: Array<string>) {
         this.setState({
             currentItem: Object.assign(this.state.currentItem, {
@@ -109,6 +129,9 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         });
     }
 
+    /**
+     * Either creates the current item if not previously added or saves the current item.
+     */
     saveItem() {
         if (this.state.isEditing) {
             let id = this.props.currentItem ? this.props.currentItem.id : this.state.currentItem.id;

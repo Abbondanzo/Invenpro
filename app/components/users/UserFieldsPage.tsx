@@ -3,25 +3,33 @@ import { RouteComponentProps } from 'react-router';
 import { User } from 'reducers/user';
 
 export interface IProps extends RouteComponentProps<any> {
+    addUser(user: User): void;
     editUser(oldUser: User, newUser: User): void;
     user: User;
 }
 
-export class EditUserPage extends React.Component<IProps, { user: User }> {
+interface IState {
+    user: User;
+    isEditing: boolean;
+}
+
+export class UserFieldsPage extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+
+        let emptyUser: User = {
+            id: '',
+            name: ''
+        };
+
+        this.state = {
+            user: this.props.user ? this.props.user : emptyUser,
+            isEditing: this.props.user ? true : false
+        };
+
         this.handleChange = this.handleChange.bind(this);
         this.goBack = this.goBack.bind(this);
         this.saveUser = this.saveUser.bind(this);
-
-        // If the user gets undefined, go back to the list
-        if (!this.props.user) {
-            this.goBack();
-        }
-        // Otherwise, set this component's state
-        this.state = {
-            user: this.props.user
-        };
     }
 
     goBack() {
@@ -38,7 +46,11 @@ export class EditUserPage extends React.Component<IProps, { user: User }> {
     }
 
     saveUser() {
-        this.props.editUser(this.props.user, this.state.user);
+        if (this.state.isEditing) {
+            this.props.editUser(this.props.user, this.state.user);
+        } else {
+            this.props.addUser(this.state.user);
+        }
     }
 
     render() {
@@ -59,7 +71,7 @@ export class EditUserPage extends React.Component<IProps, { user: User }> {
                         <label htmlFor="username">Name</label>
                     </div>
                     <button onClick={this.saveUser} data-tclass="btn">
-                        Edit
+                        {this.state.isEditing ? 'Save' : 'Add'}
                     </button>
                 </div>
             </div>
