@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import * as moment from 'moment';
 import { Item, DATE_FORMAT } from 'reducers/item';
-import { UserMap } from 'reducers/user';
+import { User, UserMap } from 'reducers/user';
 import { PriceNumberPage } from 'components/utils/PriceNumberPage';
+import UserDropdown from 'containers/utils/UserDropdown';
 import UserSelection from 'containers/utils/UserSelection';
 
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
@@ -68,6 +69,10 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
         this.setState({
             currentItem: currentItem
         });
+    }
+
+    handleOwnerChange(user: User) {
+        console.log(user);
     }
 
     handlePriceChange(amount: number) {
@@ -147,6 +152,12 @@ export class ItemFieldsPage extends React.Component<IProps, IState> {
                 <UserSelection
                     selected={this.state.currentItem.users}
                     handleChange={this.handleUsersChange}
+                />
+                <UserDropdown
+                    selected={this.state.currentItem.owner}
+                    possibleUsers={Object.values(this.props.userMap)}
+                    handleChange={this.handleOwnerChange}
+                    enableOnClickOutside={true}
                 />
                 <button onClick={this.saveItem} data-tclass="btn">
                     {this.state.isEditing ? 'Save' : 'Add'}

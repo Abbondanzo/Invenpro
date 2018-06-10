@@ -1,6 +1,8 @@
 import { Action } from 'redux';
 import { Item, ItemState } from 'reducers/item';
 
+const { history } = require('store/configureStore');
+
 export const Types = {
     addItem: 'ADD_ITEM',
     editItem: 'EDIT_ITEM',
@@ -53,6 +55,7 @@ export function editItem(id: string | null, item: Item): IItemActionWithPayload<
 }
 
 export function selectItem(id: string): IItemAction {
+    history.push('/items/item');
     return {
         type: Types.selectItem,
         item: id

@@ -1,0 +1,10 @@
+:local {
+	.options-container {
+		display: none;
+	}
+	.is-open {
+		.options-container {
+			display: block;
+		}
+	}
+}
