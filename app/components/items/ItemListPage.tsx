@@ -56,13 +56,15 @@ export class ItemListPage extends React.Component<IProps> {
                                     <th>{convertPriceToString(item.price)}</th>
                                     <th>{this.props.getUserFromId(item.owner).name}</th>
                                     <th>
-                                        <button
-                                            onClick={() => {
-                                                this.props.selectItem(item.id);
-                                            }}
-                                        >
-                                            Edit
-                                        </button>
+                                        <Link to="/items/item">
+                                            <button
+                                                onClick={() => {
+                                                    this.props.selectItem(item.id);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                        </Link>
                                     </th>
                                 </tr>
                             );

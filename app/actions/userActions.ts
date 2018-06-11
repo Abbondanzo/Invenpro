@@ -34,8 +34,6 @@ export function addUser(user: User): IUserActionWithPayload<User> {
 }
 
 export function selectUser(userId: string): IUserAction {
-    let { history } = require('store/store');
-    history.push('/users/user');
     return {
         type: Types.selectUser,
         user: userId

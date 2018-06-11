@@ -37,15 +37,32 @@ export class UserListPage extends React.Component<IProps> {
                             if (user && user.id) {
                                 return (
                                     <tr key={key}>
-                                        <td>{user.name}</td>
                                         <td>
-                                            <button
+                                            <Link
+                                                to="/users/view-user"
                                                 onClick={() => {
                                                     this.selectUser(user.id);
                                                 }}
                                             >
-                                                Edit
-                                            </button>
+                                                {user.name}
+                                            </Link>
+                                        </td>
+
+                                        <td>
+                                            <Link
+                                                to="/users/user"
+                                                onClick={() => {
+                                                    this.selectUser(user.id);
+                                                }}
+                                            >
+                                                <button
+                                                    onClick={() => {
+                                                        this.selectUser(user.id);
+                                                    }}
+                                                >
+                                                    Edit
+                                                </button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 );

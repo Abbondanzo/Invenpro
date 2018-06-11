@@ -53,8 +53,6 @@ export function editItem(id: string | null, item: Item): IItemActionWithPayload<
 }
 
 export function selectItem(id: string): IItemAction {
-    let { history } = require('store/store');
-    history.push('/items/item');
     return {
         type: Types.selectItem,
         item: id
