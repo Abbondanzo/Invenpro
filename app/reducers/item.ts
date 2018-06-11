@@ -1,30 +1,23 @@
 import { IItemAction, Types as ItemActionTypes, IItemActionWithPayload } from 'actions/itemActions';
-import guid from 'utils/uuid';
+import * as ReducerHelper from 'reducers/helper';
 
 export const DATE_FORMAT = 'MM/DD/YYYY';
 
-export type Item = {
+export type Item = ReducerHelper.IObjectWithId & {
     name: string;
     owner: string; // User UUID
     receipt: string; // Receipt UUID (for batch adds)
-    id: string; // Identifying UUID (name is not an ID)
     date: string; // MM/DD/YYYY
     price: number; // Floating point
     upc: number | null;
     users: Array<string>; // A list of UUID who pay for that item. Can include owner
 };
 
-export type ItemMap = { [key: string]: Item };
+export type ItemMap = ReducerHelper.IObjectMap<Item>;
 
-export type ItemState = {
-    currentItem: Item | null;
-    itemMap: ItemMap;
-};
+export type ItemState = ReducerHelper.IStateWithMap<Item>;
 
-export const initialState: ItemState = {
-    currentItem: null,
-    itemMap: {}
-};
+export const initialState: ItemState = ReducerHelper.initialState;
 
 /**
  * Reducer over user state.
@@ -36,24 +29,27 @@ export default function item(state: ItemState = initialState, action: IItemActio
         return state;
     }
 
+    // Initialize the map if reset
+    if (!state.map) {
+        state = { ...state, map: {} };
+    }
+
     // Check if the action contains a payload, and return the state if it does
     if (isActionWithPayload(action)) {
         return itemWithPayload(state, action as IItemActionWithPayload<any>);
     }
 
-    let map = state.itemMap;
     switch (action.type) {
         case ItemActionTypes.deleteItem:
             if (action.item) {
-                delete map[action.item];
+                return ReducerHelper.deleteObject(state, action.item);
             }
-            return Object.assign({}, state, { itemMap: map });
         case ItemActionTypes.selectItem:
             if (action.item) {
-                return Object.assign({}, state, { currentItem: map[action.item] });
+                return ReducerHelper.selectObject(state, action.item);
             }
         case ItemActionTypes.unselectItem:
-            return Object.assign({}, state, { currentItem: null });
+            return ReducerHelper.unselectObject(state);
         default:
             return state;
     }
@@ -85,44 +81,19 @@ function itemWithPayload<T>(
     action: IItemActionWithPayload<T>
 ): ItemState {
     switch (action.type) {
-        case ItemActionTypes.firebaseItem:
-            return Object.assign({}, state, action.payload);
         case ItemActionTypes.addItem:
             if (isItem(action.payload)) {
-                let map = state.itemMap;
-                let uuid = getNewUUID(map);
-                let oldItem: Item = action.payload;
-                let newItem: Item = Object.assign({}, oldItem, { id: uuid });
-                map[uuid] = newItem;
-                return Object.assign({}, state, { itemMap: map });
+                return ReducerHelper.addObject(state, action.payload);
             }
         case ItemActionTypes.editItem:
             if (action.item && isItem(action.payload)) {
-                return Object.assign({}, state, {
-                    itemMap: editItem(action.item, action.payload, state.itemMap)
-                });
+                return ReducerHelper.editObject(state, action.item, action.payload);
             }
         case ItemActionTypes.firebaseItem:
-            return Object.assign({}, state, action.payload);
+            if (action.payload) {
+                return Object.assign(state, action.payload);
+            }
         default:
             return state;
     }
-}
-
-function getNewUUID(itemMap: ItemMap): string {
-    let uuid = guid();
-    // Generate a new UUID if the map already contains one. Only a 1.06*10^51 chance.
-    while (itemMap[uuid]) {
-        uuid = guid();
-    }
-    return uuid;
-}
-
-function editItem(itemId: string, item: Item, itemMap: ItemMap): ItemMap {
-    if (!item.id) {
-        item = Object.assign({}, item, { id: itemId });
-    }
-    let previousItem = itemMap[itemId];
-    itemMap[itemId] = Object.assign(previousItem, item);
-    return itemMap;
 }

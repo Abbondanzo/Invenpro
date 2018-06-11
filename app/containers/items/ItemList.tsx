@@ -11,7 +11,7 @@ import ItemFields from 'containers/items/ItemFields';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
-        itemMap: state.item.itemMap,
+        itemMap: state.item.map ? state.item.map : {},
         getUserFromId: getUserFromId.bind(null, state)
     };
 }
@@ -25,8 +25,8 @@ function getUserFromId(state: IState, userId: string): User {
         id: userId,
         name: userId
     };
-    if (state && state.user && state.user.userMap && userId) {
-        Object.values(state.user.userMap).map((user: User) => {
+    if (state && state.user && state.user.map && userId) {
+        Object.values(state.user.map).map((user: User) => {
             if (user.id === userId) {
                 returnValue = user;
             }

@@ -9,18 +9,25 @@ import { User } from 'reducers/user';
 import { Item } from 'reducers/item';
 
 function getItemsOwnedByUser(state: IState, userId: string): Array<Item> {
-    return Object.values(state.item.itemMap).filter((item: Item) => {
+    return Object.values(state.item.map).filter((item: Item) => {
         return item.owner === userId;
+    });
+}
+
+function getItemsUsedByUser(state: IState, userId: string): Array<Item> {
+    return Object.values(state.item.map).filter((item: Item) => {
+        return item.users && item.users.includes(userId);
     });
 }
 
 function mapStateToProps(state: IState): Partial<IProps> {
     let user: User | undefined;
-    if (state.user.currentUser) {
-        user = state.user.userMap[state.user.currentUser];
+    if (state.user.current) {
+        user = state.user.map[state.user.current.id];
         return {
             user: user,
-            listOfItems: getItemsOwnedByUser(state, state.user.currentUser)
+            listOfItemsOwned: getItemsOwnedByUser(state, state.user.current.id),
+            listOfItemsUsed: getItemsUsedByUser(state, state.user.current.id)
         };
     }
     return {};

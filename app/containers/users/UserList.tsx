@@ -11,7 +11,7 @@ import { IState } from 'reducers';
 
 function mapStateToProps(state: IState): Partial<IProps> {
     return {
-        userMap: state.user.userMap
+        userMap: state.user.map ? state.user.map : {}
     };
 }
 

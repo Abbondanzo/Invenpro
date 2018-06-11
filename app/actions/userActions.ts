@@ -14,7 +14,7 @@ export const Types = {
  * An action over a single user.
  */
 export interface IUserAction extends Action {
-    readonly type: String;
+    readonly type: string;
     readonly user: string;
 }
 
@@ -42,7 +42,7 @@ export function selectUser(userId: string): IUserAction {
 
 export function unselectUser(): IUserAction {
     return {
-        type: Types.selectUser,
+        type: Types.unselectUser,
         user: ''
     };
 }

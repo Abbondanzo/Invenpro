@@ -18,7 +18,7 @@ function replaceUUIDWithUser(userMap: UserMap, selectedUsers: Array<any>): Array
 
 function mapStateToProps(state: IState, ownProps: IProps): Partial<IProps> {
     return {
-        selected: replaceUUIDWithUser(state.user.userMap, ownProps.selected),
+        selected: replaceUUIDWithUser(state.user.map, ownProps.selected),
         getSuggestionsForInput: getSuggestionsForInput.bind(null, state)
     };
 }
@@ -33,8 +33,8 @@ function mapDispatchToProps(dispatch: Dispatch<IAction>): Partial<IProps> {
  * @param input string to check for in a user's name
  */
 function getSuggestionsForInput(state: IState, input: string): Array<User> {
-    if (state && state.user && state.user.userMap && input) {
-        return Object.values(state.user.userMap).filter((user: User) => {
+    if (state && state.user && state.user.map && input) {
+        return Object.values(state.user.map).filter((user: User) => {
             return user.name && user.name.toLowerCase().includes(input.toLowerCase());
         });
     }
