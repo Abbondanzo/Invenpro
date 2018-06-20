@@ -3,12 +3,14 @@ import { routerReducer as routing } from 'react-router-redux';
 import user, { UserState, initialState as initialUserState } from './user';
 import item, { ItemState, initialState as initialItemState } from './item';
 import util, { UtilState, initialState as initialUtilState } from './util';
+import payment, { PaymentState, initialState as initialPaymentState } from './payment';
 import { deleteCache } from 'actions/utilActions';
 
 const initialState: IState = {
     user: initialUserState,
     util: initialUtilState,
-    item: initialItemState
+    item: initialItemState,
+    payment: initialPaymentState
 };
 
 const appReducer = (state: IState = initialState, action: any) => {
@@ -23,6 +25,7 @@ const rootReducer = combineReducers({
     user,
     item,
     util,
+    payment,
     appReducer,
     routing: routing as Reducer<any>
 });
@@ -31,6 +34,7 @@ export interface IState {
     user: UserState;
     item: ItemState;
     util: UtilState;
+    payment: PaymentState;
 }
 
 export default rootReducer;

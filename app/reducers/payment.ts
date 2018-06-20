@@ -26,7 +26,7 @@ export default function payment(
     }
 
     if (isActionWithPayload(action)) {
-        return paymentWithPayload(state, action);
+        return paymentWithPayload(state, action as IPaymentActionWithPayload<any>);
     }
 
     switch (action.type) {
@@ -60,11 +60,11 @@ function paymentWithPayload<T>(
     state: PaymentState = initialState,
     action: IPaymentActionWithPayload<T>
 ): PaymentState {
-    if (!state.paymentMap) {
+    if (!state.map) {
         return state;
     }
 
-    let oldPayment = state.paymentMap[action.transactionId];
+    let oldPayment = state.map[action.transactionId];
     switch (action.type) {
         case PaymentActionTypes.addPayment:
             if (isPayment(action.payload)) {
@@ -72,10 +72,12 @@ function paymentWithPayload<T>(
             }
         case PaymentActionTypes.editPayment:
             if (oldPayment) {
-                let newUser = { ...oldPayment, ...action.payload };
-                return ReducerHelper.editObject(state, action.transactionId, newUser);
+                let newPayment = Object.assign({}, oldPayment, action.payload);
+                return ReducerHelper.editObject(state, action.transactionId, newPayment);
             } else {
-                return ReducerHelper.addObject(state, action.payload);
+                if (isPayment(action.payload)) {
+                    return ReducerHelper.addObject(state, action.payload);
+                }
             }
 
         default:

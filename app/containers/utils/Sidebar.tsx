@@ -21,6 +21,11 @@ const pageLinks: Array<PageLink> = [
         icon: 'fa-user'
     },
     {
+        name: 'Payments',
+        url: '/payments',
+        icon: 'fa-money'
+    },
+    {
         name: 'Settings',
         url: '/settings',
         icon: 'fa-settings'
