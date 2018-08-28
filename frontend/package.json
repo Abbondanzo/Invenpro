@@ -1,0 +1,25 @@
+{
+    "name": "invenpro",
+    "version": "0.2.0",
+    "description": "Cross-platform inventory management with ease",
+    "main": "index.js",
+    "scripts": {
+
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Abbondanzo/Invenpro.git"
+    },
+    "keywords": [
+        "react",
+        "react-router",
+        "webpack",
+        "inventory"
+    ],
+    "author": "Peter Abbondanzo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Abbondanzo/Invenpro/issues"
+    },
+    "homepage": "https://github.com/Abbondanzo/Invenpro#readme"
+}
