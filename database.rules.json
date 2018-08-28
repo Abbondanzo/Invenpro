@@ -1,6 +1,22 @@
 {
     "rules": {
-        ".read": true,
-        ".write": true
+        "users": {
+            "$uid": {
+                ".read": "auth != null",
+                ".write": "auth.uid == $uid"
+            }
+        },
+        "projects": {
+            "$pid": {
+                ".read": "auth != null",
+                ".write": "auth.uid == data.child(owner).val()",
+                "members": {
+                    ".write": "auth != null"
+                },
+                "data": {
+                    ".write": "data.parent().child(members).child(auth.uid).exists()"
+                }
+            }
+        }
     }
 }
