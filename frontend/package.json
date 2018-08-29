@@ -3,7 +3,10 @@
     "version": "0.2.0",
     "description": "Cross-platform inventory management with ease",
     "main": "index.js",
-    "scripts": {},
+    "scripts": {
+        "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 server.js",
+        "dev": "npm run hot-server -- --start-hot"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Abbondanzo/Invenpro.git"
@@ -24,12 +27,21 @@
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
         "react-redux": "^5.0.7",
-        "react-router-redux": "^4.0.8"
+        "react-router-redux": "^4.0.8",
+        "redux": "^4.0.0"
     },
     "devDependencies": {
         "@types/react": "^16.4.12",
         "@types/react-dom": "^16.0.7",
+        "@types/react-hot-loader": "^4.1.0",
         "@types/react-redux": "^6.0.6",
-        "@types/react-router-redux": "^5.0.15"
+        "@types/react-router-redux": "^5.0.15",
+        "@types/redux": "^3.6.0",
+        "@types/redux-logger": "^3.0.6",
+        "@types/webpack-env": "^1.13.6",
+        "react-hot-loader": "^4.3.5",
+        "redux-devtools-extension": "^2.13.5",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.3.0"
     }
 }
