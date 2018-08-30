@@ -1,0 +1,41 @@
+@import "app/app.constants";
+:local {
+	.container {
+		ul {
+			list-style: none;
+		}
+		position: relative;
+		.input {
+			z-index: 11;
+			cursor: text;
+			padding: 0;
+			display: flex;
+			.user-input {
+				flex: 1;
+			}
+			input,
+			input:focus,
+			input:valid {
+				box-shadow: none;
+			}
+			li {
+				display: inline-block;
+				margin: 2px;
+				&:not(.input-container) {
+					padding: 6px;
+					padding-right: 0;
+					background: bisque;
+					span {
+						border-left: 1px solid rgba(0, 0, 0, 0.1);
+						cursor: pointer;
+						padding: 6px;
+						margin-left: 6px;
+					}
+				}
+			}
+		}
+		.suggestions-container {
+			display: block;
+		}
+	}
+}

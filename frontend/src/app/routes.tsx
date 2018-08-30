@@ -1,5 +1,5 @@
 import { Home } from '@app/components/Home';
-import { AppContainer } from '@app/containers/AppContainer';
+import AppContainer from '@app/containers/AppContainer';
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
 

@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "es5",
         "moduleResolution": "node",
-        "module": "esnext",
+        "module": "es6",
         "jsx": "react",
         "lib": ["dom", "es6", "es2017", "dom.iterable", "scripthost"],
         "baseUrl": "src",
@@ -18,7 +18,11 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "sourceMap": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "declaration": false,
+        "removeComments": true,
+        "strict": true,
+        "typeRoots": ["node_modules/@types"]
     },
 
     "files": ["src/main.tsx"],
