@@ -1,6 +1,8 @@
+import './style.scss';
+
 import * as React from 'react';
-import { User } from 'reducers/user';
-import * as styles from './style.scss';
+
+import { User } from '@app/models';
 
 export namespace UserDropdown {
     export interface Props {
@@ -52,11 +54,7 @@ export class UserDropdown extends React.Component<UserDropdown.Props, UserDropdo
 
     render() {
         return (
-            <div
-                className={['form-row', this.state.isOpen ? styles['is-open'] : undefined].join(
-                    ' '
-                )}
-            >
+            <div className={['form-row', this.state.isOpen ? 'is-open' : ''].join(' ')}>
                 <span
                     onClick={() => {
                         this.setState({ isOpen: true });
@@ -73,7 +71,7 @@ export class UserDropdown extends React.Component<UserDropdown.Props, UserDropdo
                 <div
                     className={[
                         'floating-container',
-                        this.state.isOpen ? styles['open-container'] : styles['closed-container']
+                        this.state.isOpen ? 'open-container' : 'closed-container'
                     ].join(' ')}
                 >
                     <ul>

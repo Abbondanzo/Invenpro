@@ -5,9 +5,9 @@
         "module": "es6",
         "jsx": "react",
         "lib": ["dom", "es6", "es2017", "dom.iterable", "scripthost"],
-        "baseUrl": "src",
+        "baseUrl": "./src",
         "paths": {
-            "@app/*": ["app/*"],
+            "@app/*": ["app/*"]
         },
         "alwaysStrict": true,
         "strictNullChecks": true,
@@ -26,10 +26,6 @@
     },
 
     "files": ["src/main.tsx"],
-    "include": [
-        "app/**/*.ts",
-        "app/**/*.tsx",
-        "node_modules/@types/**/*.d.ts"
-    ],
+    "include": ["app/**/*.ts", "app/**/*.tsx", "node_modules/@types/**/*.d.ts"],
     "exclude": ["dist"]
 }
