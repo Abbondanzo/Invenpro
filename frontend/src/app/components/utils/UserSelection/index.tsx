@@ -1,27 +1,29 @@
+import { User } from '@app/models';
 import * as React from 'react';
-import { User } from 'reducers/user';
-import * as styles from './style.scss';
+import './style.scss';
 
-export interface IProps {
-    selected: Array<User | string>; // Array of user UUIDs or generic names
-    getSuggestionsForInput(input: string): Array<User>; // Generates a list of "suggestions" of users matching the given input
-    handleChange(users: Array<string>): any;
+export namespace UserSelection {
+    export interface Props {
+        selected: Array<User | string>; // Array of user UUIDs or generic names
+        getSuggestionsForInput(input: string): Array<User>; // Generates a list of "suggestions" of users matching the given input
+        handleChange(users: Array<string>): any;
+    }
+
+    export interface State {
+        input: string;
+        inputClasses: Array<string>;
+        selectedUsers: Array<User | string>;
+        suggestions: Array<User>;
+    }
 }
 
-interface IState {
-    input: string;
-    inputClasses: Array<string>;
-    selectedUsers: Array<User | string>;
-    suggestions: Array<User>;
-}
-
-export class UserSelectionPage extends React.Component<IProps, IState> {
+export class UserSelection extends React.Component<UserSelection.Props, UserSelection.State> {
     private userInput: React.RefObject<HTMLInputElement>;
-    constructor(props: IProps) {
+    constructor(props: UserSelection.Props) {
         super(props);
         this.state = {
             input: '',
-            inputClasses: ['input', styles['input']],
+            inputClasses: ['input'],
             selectedUsers: this.props.selected,
             suggestions: []
         };
@@ -200,13 +202,13 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div className={['form-row', styles.container].join(' ')}>
+            <div className="container form-row">
                 <div
                     onClick={this.focusOnInput}
                     onMouseDown={this.focusOnInput}
                     className={this.state.inputClasses.join(' ')}
                 >
-                    <ul className={styles['user-names']}>
+                    <ul className="user-names">
                         {this.state.selectedUsers.map((user: User | string, index: number) => {
                             return (
                                 <li key={index}>
@@ -221,7 +223,7 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
                                 </li>
                             );
                         })}
-                        <li className={styles['input-container']}>
+                        <li className="input-container">
                             <input
                                 type="text"
                                 placeholder={
@@ -234,14 +236,14 @@ export class UserSelectionPage extends React.Component<IProps, IState> {
                                 onKeyDown={this.onKeyPressed}
                                 onFocus={this.onFocus}
                                 onBlur={this.onBlur}
-                                className={styles['user-input']}
+                                className="user-input"
                             />
                         </li>
                     </ul>
                 </div>
                 <label htmlFor="userSelectionPage">Users</label>
                 {this.state.suggestions.length ? (
-                    <ul className={'floating-container ' + styles['suggestions-container']}>
+                    <ul className="floating-container suggestions-container">
                         {this.state.suggestions.map((user: User, index: number) => {
                             return (
                                 <li

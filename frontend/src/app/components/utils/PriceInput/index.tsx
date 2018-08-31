@@ -12,10 +12,6 @@ export namespace PriceInput {
     }
 }
 
-interface IState {
-    amount: string;
-}
-
 export class PriceInput extends React.Component<PriceInput.Props, PriceInput.State> {
     constructor(props: PriceInput.Props) {
         super(props);

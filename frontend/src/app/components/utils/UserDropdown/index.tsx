@@ -1,8 +1,6 @@
-import './style.scss';
-
-import * as React from 'react';
-
 import { User } from '@app/models';
+import * as React from 'react';
+import './style.scss';
 
 export namespace UserDropdown {
     export interface Props {

@@ -41,7 +41,7 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
             });
         });
         this.setState({
-            pageLinks: pageLinks
+            pageLinks
         });
     }
 

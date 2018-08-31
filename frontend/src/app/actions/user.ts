@@ -9,12 +9,12 @@ export namespace UserActions {
     export enum Type {
         ADD_USER = 'ADD_USER',
         SELECT_USER = 'SELECT_USER',
-        EDIT_USER = 'EDIT_USER'
+        SAVE_USER = 'SAVE_USER'
     }
 
     export const addUser = createAction<User>(Type.ADD_USER);
     export const selectUser = createAction<User['id'] | undefined>(Type.SELECT_USER);
-    export const editUser = createAction<User>(Type.EDIT_USER);
+    export const saveUser = createAction<User>(Type.SAVE_USER);
 }
 
 export type UserActions = Omit<typeof UserActions, 'Type'>;

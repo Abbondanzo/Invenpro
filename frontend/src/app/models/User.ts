@@ -1,5 +1,6 @@
-export declare interface User {
-    id: string;
+import { ObjectWithId } from './index';
+
+export interface User extends ObjectWithId {
     name: string;
 }
 
