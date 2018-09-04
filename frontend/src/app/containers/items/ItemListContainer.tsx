@@ -1,5 +1,5 @@
+import { ItemList } from '@app/components/items/ItemList';
 import { AppState } from '@app/reducers';
-import { ItemList } from '@ItemList/components/ItemList';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';

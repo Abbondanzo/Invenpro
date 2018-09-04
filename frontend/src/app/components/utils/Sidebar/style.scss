@@ -1,7 +1,9 @@
+@import "app.constants.scss";
+
 .sidebar {
     background: #31475A;
     height: 100%;
-    color: #607A99;
+    color: $secondaryColor;
 
     ul {
         li {
@@ -9,12 +11,11 @@
             padding: 1em 2em;
             cursor: pointer;
             user-select: none;
-            font-family: 'Open Sans Semibold', sans-serif;
+            font-family: $primaryFont;
 
             &.active {
                 color: #fff;
-                font-family: 'Open Sans Bold', sans-serif;
-                font-weight: 800;
+                font-family: $primaryFont;
             }
         }
     }
