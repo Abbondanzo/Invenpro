@@ -1,6 +1,8 @@
+import { Navbar } from '@app/components/utils/Navbar';
 import { Sidebar } from '@app/components/utils/Sidebar';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import './style.scss';
 
 export namespace App {
     export interface Props extends RouteComponentProps<void> {}
@@ -17,11 +19,14 @@ export class App extends React.Component<App.Props> {
 
     render() {
         return (
-            <div className="container">
-                <div className="sidebar-container">
-                    <Sidebar history={this.props.history} location={this.props.location} />
+            <div>
+                <Navbar />
+                <div className="content">
+                    <div className="sidebar-container">
+                        <Sidebar history={this.props.history} location={this.props.location} />
+                    </div>
+                    <div className="content-container">{this.props.children}</div>
                 </div>
-                <div className="content-container">{this.props.children}</div>
             </div>
         );
     }

@@ -39,7 +39,6 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
     render() {
         const addItem = () => {
             const newItem = Item.getItem({
-                id: 'asdfaqsdf-asdfasdf-asdfsdf',
                 name: 'Item',
                 owner: '0sdf0f-sadfasdf-sdafsdfasdf',
                 receipt: 'R',
@@ -49,7 +48,7 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
             this.props.actions.addItem(newItem);
         };
         return (
-            <div>
+            <div className="widget">
                 <table>
                     <thead>
                         <tr>

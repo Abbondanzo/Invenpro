@@ -1,4 +1,5 @@
 import { User } from '@app/models';
+import guid from '@app/utils/uuid';
 import { ObjectWithId } from './index';
 
 export interface Item extends ObjectWithId {
@@ -13,7 +14,7 @@ export interface Item extends ObjectWithId {
 
 export namespace Item {
     export const getItem = (data: {
-        id: string;
+        id?: string;
         name: string;
         owner: User['id'];
         receipt: string;
@@ -23,7 +24,7 @@ export namespace Item {
         users?: Array<User['id']>;
     }): Item => {
         return {
-            id: data.id || '',
+            id: data.id || guid(),
             name: data.name || '',
             owner: data.owner,
             receipt: data.receipt,
