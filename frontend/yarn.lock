@@ -2484,6 +2484,10 @@ ignore-walk@^3.0.1:
   dependencies:
     minimatch "^3.0.4"
 
+immutable@^3.8.2:
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+
 import-cwd@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/import-cwd/-/import-cwd-2.1.0.tgz#aa6cf36e722761285cb371ec6519f53e2435b0a9"
@@ -4533,9 +4537,13 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-thunk@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
+redux-promise-middleware-actions@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/redux-promise-middleware-actions/-/redux-promise-middleware-actions-2.1.0.tgz#86662a594363e8a6da357e5663f3ce8aadf9bc86"
+
+redux-promise-middleware@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/redux-promise-middleware/-/redux-promise-middleware-5.1.1.tgz#37689339a58a33d1fda675ed1ba2053a2d196b8d"
 
 redux@*, "redux@>= 3.7.2", redux@^4.0.0:
   version "4.0.0"

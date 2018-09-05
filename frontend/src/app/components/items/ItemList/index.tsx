@@ -37,6 +37,17 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
     }
 
     render() {
+        const addItem = () => {
+            const newItem = Item.getItem({
+                id: 'asdfaqsdf-asdfasdf-asdfsdf',
+                name: 'Item',
+                owner: '0sdf0f-sadfasdf-sdafsdfasdf',
+                receipt: 'R',
+                date: '05/12/1998',
+                price: 0.01
+            });
+            this.props.actions.addItem(newItem);
+        };
         return (
             <div>
                 <table>
@@ -73,6 +84,10 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
                         })}
                     </tbody>
                 </table>
+                <div data-tid="addButton">
+                    {/* <Link to="/items/item">Add Item</Link> */}
+                    <button onClick={addItem}>Click</button>
+                </div>
             </div>
         );
     }

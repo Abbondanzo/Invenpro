@@ -12,7 +12,16 @@ export interface Item extends ObjectWithId {
 }
 
 export namespace Item {
-    export const getItem = (data: any): Item => {
+    export const getItem = (data: {
+        id: string;
+        name: string;
+        owner: User['id'];
+        receipt: string;
+        date: string;
+        price: number;
+        upc?: number;
+        users?: Array<User['id']>;
+    }): Item => {
         return {
             id: data.id || '',
             name: data.name || '',
@@ -20,7 +29,7 @@ export namespace Item {
             receipt: data.receipt,
             date: data.date,
             price: data.price,
-            upc: data.upc,
+            upc: data.upc || null,
             users: data.users || []
         };
     };
