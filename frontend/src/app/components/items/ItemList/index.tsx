@@ -1,4 +1,5 @@
 import { ItemActions } from '@app/actions';
+import { Icon } from 'antd';
 import { Item, User } from '@app/models';
 import * as moment from 'moment';
 import * as React from 'react';
@@ -69,13 +70,13 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
                                     <th>{this.props.getUserFromId(item.owner).name}</th>
                                     <th>
                                         <Link to="/items/item">
-                                            <button
+                                            <div
                                                 onClick={() => {
                                                     this.props.actions.selectItem(item.id);
                                                 }}
                                             >
-                                                Edit
-                                            </button>
+                                                <Icon type="edit" theme="outlined" />
+                                            </div>
                                         </Link>
                                     </th>
                                 </tr>

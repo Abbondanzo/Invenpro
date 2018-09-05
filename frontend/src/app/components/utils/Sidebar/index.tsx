@@ -1,3 +1,4 @@
+import { Menu } from 'antd';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import './style.scss';
@@ -48,10 +49,10 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
     render() {
         return (
             <div className="sidebar">
-                <ul>
+                <Menu>
                     {this.state.pageLinks.map((pageData: Sidebar.PageLinkStatus) => {
                         return (
-                            <li
+                            <Menu.Item
                                 key={pageData.page.name}
                                 className={pageData.page.icon + (pageData.active ? ' active' : '')}
                                 onClick={() => {
@@ -59,10 +60,10 @@ export class Sidebar extends React.Component<Sidebar.Props, Sidebar.State> {
                                 }}
                             >
                                 {pageData.page.name}
-                            </li>
+                            </Menu.Item>
                         );
                     })}
-                </ul>
+                </Menu>
             </div>
         );
     }
