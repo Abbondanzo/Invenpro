@@ -4,7 +4,7 @@
     "description": "Cross-platform inventory management with ease",
     "main": "index.js",
     "scripts": {
-        "webpack-dev-server": "webpack-dev-server --mode development --hot --progress --color --port 3000 --open",
+        "webpack-dev-server": "webpack-dev-server --mode development --hot --progress --color --open",
         "hot-server": "cross-env NODE_ENV=development npm run webpack-dev-server",
         "dev": "npm run hot-server"
     },
