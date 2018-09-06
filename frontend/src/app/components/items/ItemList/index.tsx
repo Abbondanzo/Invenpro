@@ -1,9 +1,8 @@
 import { ItemActions } from '@app/actions';
-import { Icon } from 'antd';
 import { Item, User } from '@app/models';
+import { Icon, Table } from 'antd';
 import * as moment from 'moment';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
 export namespace ItemList {
     export interface Props {
@@ -21,8 +20,8 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
      */
     sortItemsByDate(items: Item[]): Item[] {
         return items.sort((a: Item, b: Item) => {
-            let momentA = moment(a.date);
-            let momentB = moment(b.date);
+            const momentA = moment(a.date);
+            const momentB = moment(b.date);
             if (momentA.isBefore(momentB)) return -1;
             if (momentB.isBefore(momentA)) return 1;
             return 0;
@@ -38,6 +37,13 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
     }
 
     render() {
+        type Record = {
+            key: number;
+            date: string;
+            name: string;
+            price: string;
+            owner: string;
+        };
         const addItem = () => {
             const newItem = Item.getItem({
                 name: 'Item',
@@ -48,9 +54,59 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
             });
             this.props.actions.addItem(newItem);
         };
+        const columns = [
+            {
+                title: 'Date',
+                dataIndex: 'date',
+                key: 'date'
+            },
+            {
+                title: 'Name',
+                dataIndex: 'name',
+                key: 'name'
+            },
+            {
+                title: 'Price',
+                dataIndex: 'price',
+                key: 'price'
+            },
+            {
+                title: 'Paid',
+                dataIndex: 'owner',
+                key: 'owner'
+            },
+            {
+                title: 'Actions',
+                dataIndex: 'actions',
+                key: 'actions',
+                render: (record: Record) => {
+                    return (
+                        <span>
+                            <Icon type="edit" theme="outlined" />
+                        </span>
+                    );
+                }
+            }
+        ];
+        const dataSource = this.sortItemsByDate(this.props.items).map(
+            (item: Item, index: number) => {
+                return {
+                    key: index,
+                    date: item.date,
+                    name: item.name,
+                    price: this.convertPriceToString(item.price),
+                    owner: this.props.getUserFromId(item.owner).name
+                } as Record;
+            }
+        );
         return (
             <div className="widget">
-                <table>
+                <Table
+                    columns={columns}
+                    dataSource={dataSource}
+                    pagination={{ position: 'both' }}
+                />
+                {/* <table>
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -83,7 +139,7 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
                             );
                         })}
                     </tbody>
-                </table>
+                </table> */}
                 <div data-tid="addButton">
                     {/* <Link to="/items/item">Add Item</Link> */}
                     <button onClick={addItem}>Click</button>
