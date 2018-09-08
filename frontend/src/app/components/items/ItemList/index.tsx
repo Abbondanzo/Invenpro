@@ -1,6 +1,7 @@
 import { ItemActions } from '@app/actions';
 import { Item, User } from '@app/models';
-import { Icon, Table } from 'antd';
+import guid from '@app/utils/uuid';
+import { Icon, Pagination, Table } from 'antd';
 import * as moment from 'moment';
 import * as React from 'react';
 
@@ -20,8 +21,8 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
      */
     sortItemsByDate(items: Item[]): Item[] {
         return items.sort((a: Item, b: Item) => {
-            const momentA = moment(a.date);
-            const momentB = moment(b.date);
+            const momentA = moment(a.date, 'MM-DD-YYYY');
+            const momentB = moment(b.date, 'MM-DD-YYYY');
             if (momentA.isBefore(momentB)) return -1;
             if (momentB.isBefore(momentA)) return 1;
             return 0;
@@ -37,6 +38,7 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
     }
 
     render() {
+        Pagination.toString();
         type Record = {
             key: number;
             date: string;
@@ -47,9 +49,9 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
         const addItem = () => {
             const newItem = Item.getItem({
                 name: 'Item',
-                owner: '0sdf0f-sadfasdf-sdafsdfasdf',
+                owner: guid(),
                 receipt: 'R',
-                date: '05/12/1998',
+                date: moment().format('l'),
                 price: 0.01
             });
             this.props.actions.addItem(newItem);
@@ -101,11 +103,7 @@ export class ItemList extends React.Component<ItemList.Props, ItemList.State> {
         );
         return (
             <div className="widget">
-                <Table
-                    columns={columns}
-                    dataSource={dataSource}
-                    pagination={{ position: 'both' }}
-                />
+                <Table columns={columns} dataSource={dataSource} pagination={false} />
                 {/* <table>
                     <thead>
                         <tr>
