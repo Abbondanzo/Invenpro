@@ -1,90 +1,40 @@
 {
-    "name": "invenpro",
-    "version": "0.2.0",
-    "description": "Cross-platform inventory management with ease",
-    "main": "index.js",
-    "scripts": {
-        "webpack-dev-server": "webpack-dev-server --mode development --hot --progress --color --open",
-        "hot-server": "cross-env NODE_ENV=development npm run webpack-dev-server",
-        "dev": "npm run hot-server"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Abbondanzo/Invenpro.git"
-    },
-    "keywords": [
-        "react",
-        "react-router",
-        "webpack",
-        "inventory"
+  "name": "invenpro",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "node-sass": "^4.14.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3",
+    "typescript": "~3.7.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
     ],
-    "author": "Peter Abbondanzo",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Abbondanzo/Invenpro/issues"
-    },
-    "homepage": "https://github.com/Abbondanzo/Invenpro#readme",
-    "dependencies": {
-        "antd": "^3.9.1",
-        "history": "^4.7.2",
-        "immutable": "^3.8.2",
-        "moment": "^2.22.2",
-        "react": "^16.4.2",
-        "react-datepicker": "^1.6.0",
-        "react-dom": "^16.4.2",
-        "react-redux": "^5.0.7",
-        "react-router": "^4.3.1",
-        "react-router-dom": "^4.3.1",
-        "react-router-redux": "^5.0.0-alpha.9",
-        "redux": "^4.0.0",
-        "redux-actions": "^2.6.1",
-        "redux-promise-middleware": "^5.1.1",
-        "redux-promise-middleware-actions": "^2.1.0"
-    },
-    "devDependencies": {
-        "@babel/core": "^7.0.0",
-        "@types/node": "^10.9.3",
-        "@types/react": "^16.4.13",
-        "@types/react-datepicker": "^1.1.7",
-        "@types/react-dom": "^16.0.7",
-        "@types/react-hot-loader": "^4.1.0",
-        "@types/react-redux": "^6.0.6",
-        "@types/react-router-dom": "^4.3.0",
-        "@types/react-router-redux": "^5.0.15",
-        "@types/redux": "^3.6.0",
-        "@types/redux-actions": "^2.3.0",
-        "@types/redux-logger": "^3.0.6",
-        "@types/webpack": "^4.4.11",
-        "@types/webpack-dev-server": "^2.9.6",
-        "@types/webpack-env": "^1.13.6",
-        "babel-loader": "^8.0.0",
-        "bootstrap": "^4.1.3",
-        "cross-env": "^5.2.0",
-        "css-loader": "^1.0.0",
-        "dotenv-webpack": "^1.5.7",
-        "file-loader": "^2.0.0",
-        "html-loader": "^0.5.5",
-        "html-webpack-plugin": "^3.2.0",
-        "mini-css-extract-plugin": "^0.4.2",
-        "node-sass": "^4.9.3",
-        "postcss": "^7.0.2",
-        "postcss-browser-reporter": "^0.5.0",
-        "postcss-import": "^12.0.0",
-        "postcss-loader": "^3.0.0",
-        "postcss-preset-env": "^5.3.0",
-        "postcss-reporter": "^6.0.0",
-        "postcss-url": "^8.0.0",
-        "react-hot-loader": "^4.3.5",
-        "redux-devtools-extension": "^2.13.5",
-        "redux-logger": "^3.0.6",
-        "sass-loader": "^7.1.0",
-        "style-loader": "^0.23.0",
-        "ts-loader": "^4.5.0",
-        "typescript": "^3.0.1",
-        "url-loader": "^1.1.1",
-        "webpack": "^4.17.1",
-        "webpack-cleanup-plugin": "^0.5.1",
-        "webpack-cli": "^3.1.0",
-        "webpack-dev-server": "^3.1.7"
-    }
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
